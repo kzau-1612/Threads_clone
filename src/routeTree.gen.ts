@@ -13,17 +13,13 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as StepsImport } from './routes/steps'
 import { Route as SearchImport } from './routes/search'
-import { Route as ProfileImport } from './routes/profile'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutImport } from './routes/_layout'
-import { Route as AuthenticatedImport } from './routes/_authenticated'
-import { Route as IndexImport } from './routes/index'
 import { Route as PokemonIndexImport } from './routes/pokemon/index'
+import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as PokemonIdImport } from './routes/pokemon/$id'
-import { Route as LayoutFooImport } from './routes/_layout/foo'
-import { Route as LayoutBarImport } from './routes/_layout/bar'
-import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
+import { Route as LayoutProfileImport } from './routes/_layout/profile'
+import { Route as LayoutAuthenticatedImport } from './routes/_layout/_authenticated'
 
 // Create/Update Routes
 
@@ -39,12 +35,6 @@ const SearchRoute = SearchImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProfileRoute = ProfileImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
@@ -56,21 +46,16 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedRoute = AuthenticatedImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const PokemonIndexRoute = PokemonIndexImport.update({
   id: '/pokemon/',
   path: '/pokemon/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutIndexRoute = LayoutIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 const PokemonIdRoute = PokemonIdImport.update({
@@ -79,48 +64,21 @@ const PokemonIdRoute = PokemonIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutFooRoute = LayoutFooImport.update({
-  id: '/foo',
-  path: '/foo',
+const LayoutProfileRoute = LayoutProfileImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutBarRoute = LayoutBarImport.update({
-  id: '/bar',
-  path: '/bar',
+const LayoutAuthenticatedRoute = LayoutAuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => LayoutRoute,
-} as any)
-
-const AuthenticatedSettingsRoute = AuthenticatedSettingsImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-
-const AuthenticatedDashboardRoute = AuthenticatedDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedImport
-      parentRoute: typeof rootRoute
-    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -133,13 +91,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileImport
       parentRoute: typeof rootRoute
     }
     '/search': {
@@ -156,32 +107,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StepsImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsImport
-      parentRoute: typeof AuthenticatedImport
-    }
-    '/_layout/bar': {
-      id: '/_layout/bar'
-      path: '/bar'
-      fullPath: '/bar'
-      preLoaderRoute: typeof LayoutBarImport
+    '/_layout/_authenticated': {
+      id: '/_layout/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutAuthenticatedImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/foo': {
-      id: '/_layout/foo'
-      path: '/foo'
-      fullPath: '/foo'
-      preLoaderRoute: typeof LayoutFooImport
+    '/_layout/profile': {
+      id: '/_layout/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof LayoutProfileImport
       parentRoute: typeof LayoutImport
     }
     '/pokemon/$id': {
@@ -190,6 +127,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/pokemon/$id'
       preLoaderRoute: typeof PokemonIdImport
       parentRoute: typeof rootRoute
+    }
+    '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutIndexImport
+      parentRoute: typeof LayoutImport
     }
     '/pokemon/': {
       id: '/pokemon/'
@@ -203,133 +147,94 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface AuthenticatedRouteChildren {
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-}
-
-const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-}
-
-const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
-  AuthenticatedRouteChildren,
-)
-
 interface LayoutRouteChildren {
-  LayoutBarRoute: typeof LayoutBarRoute
-  LayoutFooRoute: typeof LayoutFooRoute
+  LayoutAuthenticatedRoute: typeof LayoutAuthenticatedRoute
+  LayoutProfileRoute: typeof LayoutProfileRoute
+  LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutBarRoute: LayoutBarRoute,
-  LayoutFooRoute: LayoutFooRoute,
+  LayoutAuthenticatedRoute: LayoutAuthenticatedRoute,
+  LayoutProfileRoute: LayoutProfileRoute,
+  LayoutIndexRoute: LayoutIndexRoute,
 }
 
 const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '': typeof LayoutRouteWithChildren
+  '': typeof LayoutAuthenticatedRoute
   '/login': typeof LoginRoute
-  '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
-  '/settings': typeof AuthenticatedSettingsRoute
-  '/bar': typeof LayoutBarRoute
-  '/foo': typeof LayoutFooRoute
+  '/profile': typeof LayoutProfileRoute
   '/pokemon/$id': typeof PokemonIdRoute
+  '/': typeof LayoutIndexRoute
   '/pokemon': typeof PokemonIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '': typeof LayoutRouteWithChildren
   '/login': typeof LoginRoute
-  '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
-  '/settings': typeof AuthenticatedSettingsRoute
-  '/bar': typeof LayoutBarRoute
-  '/foo': typeof LayoutFooRoute
+  '': typeof LayoutAuthenticatedRoute
+  '/profile': typeof LayoutProfileRoute
   '/pokemon/$id': typeof PokemonIdRoute
+  '/': typeof LayoutIndexRoute
   '/pokemon': typeof PokemonIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_layout': typeof LayoutRouteWithChildren
   '/login': typeof LoginRoute
-  '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/_layout/bar': typeof LayoutBarRoute
-  '/_layout/foo': typeof LayoutFooRoute
+  '/_layout/_authenticated': typeof LayoutAuthenticatedRoute
+  '/_layout/profile': typeof LayoutProfileRoute
   '/pokemon/$id': typeof PokemonIdRoute
+  '/_layout/': typeof LayoutIndexRoute
   '/pokemon/': typeof PokemonIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | ''
     | '/login'
-    | '/profile'
     | '/search'
     | '/steps'
-    | '/dashboard'
-    | '/settings'
-    | '/bar'
-    | '/foo'
+    | '/profile'
     | '/pokemon/$id'
+    | '/'
     | '/pokemon'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | ''
     | '/login'
-    | '/profile'
     | '/search'
     | '/steps'
-    | '/dashboard'
-    | '/settings'
-    | '/bar'
-    | '/foo'
+    | ''
+    | '/profile'
     | '/pokemon/$id'
+    | '/'
     | '/pokemon'
   id:
     | '__root__'
-    | '/'
-    | '/_authenticated'
     | '/_layout'
     | '/login'
-    | '/profile'
     | '/search'
     | '/steps'
-    | '/_authenticated/dashboard'
-    | '/_authenticated/settings'
-    | '/_layout/bar'
-    | '/_layout/foo'
+    | '/_layout/_authenticated'
+    | '/_layout/profile'
     | '/pokemon/$id'
+    | '/_layout/'
     | '/pokemon/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LayoutRoute: typeof LayoutRouteWithChildren
   LoginRoute: typeof LoginRoute
-  ProfileRoute: typeof ProfileRoute
   SearchRoute: typeof SearchRoute
   StepsRoute: typeof StepsRoute
   PokemonIdRoute: typeof PokemonIdRoute
@@ -337,11 +242,8 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LayoutRoute: LayoutRouteWithChildren,
   LoginRoute: LoginRoute,
-  ProfileRoute: ProfileRoute,
   SearchRoute: SearchRoute,
   StepsRoute: StepsRoute,
   PokemonIdRoute: PokemonIdRoute,
@@ -358,39 +260,24 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/_authenticated",
         "/_layout",
         "/login",
-        "/profile",
         "/search",
         "/steps",
         "/pokemon/$id",
         "/pokemon/"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/_authenticated": {
-      "filePath": "_authenticated.tsx",
-      "children": [
-        "/_authenticated/dashboard",
-        "/_authenticated/settings"
-      ]
-    },
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
-        "/_layout/bar",
-        "/_layout/foo"
+        "/_layout/_authenticated",
+        "/_layout/profile",
+        "/_layout/"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
-    },
-    "/profile": {
-      "filePath": "profile.tsx"
     },
     "/search": {
       "filePath": "search.tsx"
@@ -398,24 +285,20 @@ export const routeTree = rootRoute
     "/steps": {
       "filePath": "steps.tsx"
     },
-    "/_authenticated/dashboard": {
-      "filePath": "_authenticated/dashboard.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/settings": {
-      "filePath": "_authenticated/settings.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_layout/bar": {
-      "filePath": "_layout/bar.tsx",
+    "/_layout/_authenticated": {
+      "filePath": "_layout/_authenticated.tsx",
       "parent": "/_layout"
     },
-    "/_layout/foo": {
-      "filePath": "_layout/foo.tsx",
+    "/_layout/profile": {
+      "filePath": "_layout/profile.tsx",
       "parent": "/_layout"
     },
     "/pokemon/$id": {
       "filePath": "pokemon/$id.tsx"
+    },
+    "/_layout/": {
+      "filePath": "_layout/index.tsx",
+      "parent": "/_layout"
     },
     "/pokemon/": {
       "filePath": "pokemon/index.tsx"

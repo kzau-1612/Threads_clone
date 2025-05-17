@@ -17,6 +17,7 @@ function Login() {
             onClick={async () => {
               signOut();
               router.invalidate();
+              router.navigate({ to: "/" });
             }}
           >
             Sign Out
@@ -27,6 +28,7 @@ function Login() {
           onClick={async () => {
             signIn();
             router.invalidate();
+            router.navigate({ to: "/" });
           }}
         >
           Sign In

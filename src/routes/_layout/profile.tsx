@@ -1,7 +1,7 @@
 import { createFileRoute, useBlocker } from "@tanstack/react-router";
 import { useState } from "react";
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute("/_layout/profile")({
   component: Profile,
 });
 
