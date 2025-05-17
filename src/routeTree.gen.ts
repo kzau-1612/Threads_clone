@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as StepsImport } from './routes/steps'
 import { Route as SearchImport } from './routes/search'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as LoginImport } from './routes/login'
@@ -25,6 +26,12 @@ import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/se
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
 
 // Create/Update Routes
+
+const StepsRoute = StepsImport.update({
+  id: '/steps',
+  path: '/steps',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const SearchRoute = SearchImport.update({
   id: '/search',
@@ -142,6 +149,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchImport
       parentRoute: typeof rootRoute
     }
+    '/steps': {
+      id: '/steps'
+      path: '/steps'
+      fullPath: '/steps'
+      preLoaderRoute: typeof StepsImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -222,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
+  '/steps': typeof StepsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/bar': typeof LayoutBarRoute
@@ -236,6 +251,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
+  '/steps': typeof StepsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/bar': typeof LayoutBarRoute
@@ -252,6 +268,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
+  '/steps': typeof StepsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_layout/bar': typeof LayoutBarRoute
@@ -268,6 +285,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/profile'
     | '/search'
+    | '/steps'
     | '/dashboard'
     | '/settings'
     | '/bar'
@@ -281,6 +299,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/profile'
     | '/search'
+    | '/steps'
     | '/dashboard'
     | '/settings'
     | '/bar'
@@ -295,6 +314,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/profile'
     | '/search'
+    | '/steps'
     | '/_authenticated/dashboard'
     | '/_authenticated/settings'
     | '/_layout/bar'
@@ -311,6 +331,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
   SearchRoute: typeof SearchRoute
+  StepsRoute: typeof StepsRoute
   PokemonIdRoute: typeof PokemonIdRoute
   PokemonIndexRoute: typeof PokemonIndexRoute
 }
@@ -322,6 +343,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
   SearchRoute: SearchRoute,
+  StepsRoute: StepsRoute,
   PokemonIdRoute: PokemonIdRoute,
   PokemonIndexRoute: PokemonIndexRoute,
 }
@@ -342,6 +364,7 @@ export const routeTree = rootRoute
         "/login",
         "/profile",
         "/search",
+        "/steps",
         "/pokemon/$id",
         "/pokemon/"
       ]
@@ -371,6 +394,9 @@ export const routeTree = rootRoute
     },
     "/search": {
       "filePath": "search.tsx"
+    },
+    "/steps": {
+      "filePath": "steps.tsx"
     },
     "/_authenticated/dashboard": {
       "filePath": "_authenticated/dashboard.tsx",

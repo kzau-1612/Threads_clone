@@ -1,6 +1,7 @@
-import { Link, Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { AuthContext } from "../hooks/useAuth";
+import { CustomLink } from "../components/CustomLink";
 
 const activeProps = {
   style: {
@@ -23,39 +24,36 @@ function RootComponent() {
       <h1>My App</h1>
       <ul>
         <li>
-          <Link to="/" activeProps={activeProps}>
-            Home
-          </Link>
+          <CustomLink to="/">Home</CustomLink>
         </li>
         <li>
-          <Link to="/profile" activeProps={activeProps}>
-            {({ isActive }) => <>Profile {isActive && "active"}</>}
-          </Link>
+          <CustomLink to="/profile">{({ isActive }) => <>Profile {isActive && "-"}</>}</CustomLink>
         </li>
         <li>
-          <Link to="/pokemon" activeProps={activeProps}>
-            Pokemons
-          </Link>
+          <CustomLink to="/pokemon">Pokemons</CustomLink>
         </li>
         <li>
-          <Link to="/search" activeProps={activeProps}>
-            Search
-          </Link>
+          <CustomLink to="/search">Search</CustomLink>
         </li>
         <li>
-          <Link to="/login" activeProps={activeProps}>
-            Login
-          </Link>
+          <CustomLink to="/login">Login</CustomLink>
         </li>
         <li>
-          <Link to="/dashboard" activeProps={activeProps}>
-            Dashboard
-          </Link>
+          <CustomLink to="/dashboard">Dashboard</CustomLink>
         </li>
         <li>
-          <Link to="/settings" activeProps={activeProps}>
-            Settings
-          </Link>
+          <CustomLink to="/settings">Settings</CustomLink>
+        </li>
+        <li>
+          <CustomLink
+            to="/steps"
+            activeOptions={{
+              includeSearch: false,
+            }}
+            search={{ username: "Kim", step: 2 }}
+          >
+            Steps
+          </CustomLink>
         </li>
       </ul>
       <Outlet />
