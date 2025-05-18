@@ -6,13 +6,13 @@ const style = {
   fontWeight: "bold",
 };
 
-type CustomLinkComponentProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  underline?: boolean;
-};
+interface BasicLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  // Add any additional props you want to pass to the anchor element
+}
 
-const BasicLinkComponent = (props: CustomLinkComponentProps) => {
-  return <a {...props} className={`${props.underline && "underline"}`} />;
-};
+const BasicLinkComponent = React.forwardRef<HTMLAnchorElement, BasicLinkProps>((props, ref) => {
+  return <a ref={ref} {...props} />;
+});
 
 const CreatedLinkComponent = createLink(BasicLinkComponent);
 

@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useLoaderData } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { AppShell, Burger, Group, Skeleton, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { CustomLink } from "../components/CustomLink";
@@ -15,6 +15,7 @@ export const Route = createFileRoute("/_layout")({
 function MainLayout() {
   const [opened, { toggle }] = useDisclosure();
   const checkLogin = Route.useLoaderData();
+  console.log("reload");
 
   return (
     <AppShell

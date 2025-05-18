@@ -6,6 +6,7 @@ import "@mantine/core/styles.css";
 import "normalize.css";
 import { MantineProvider, createTheme } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {

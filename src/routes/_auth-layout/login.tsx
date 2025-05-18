@@ -1,7 +1,7 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { isAuthenticated, signIn, signOut } from "../utils/auth";
+import { isAuthenticated, signIn, signOut } from "../../utils/auth";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_auth-layout/login")({
   component: Login,
 });
 

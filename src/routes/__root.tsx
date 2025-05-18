@@ -1,23 +1,23 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { AuthContext } from "../hooks/useAuth";
-import { CustomLink } from "../components/CustomLink";
-import MainLayout from "../layouts/MainLayout/MainLayout";
-
-const activeProps = {
-  style: {
-    color: "red",
-    fontWeight: "bold",
-  },
-};
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 type RouterContext = {
   authentication: AuthContext;
 };
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  component: Outlet,
+  component: RootComponent,
 });
+
+function RootComponent() {
+  return (
+    <>
+      <Outlet />
+      <TanStackRouterDevtools />
+    </>
+  );
+}
 
 // function RootComponent() {
 //   return (
