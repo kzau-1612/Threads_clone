@@ -3,37 +3,43 @@ import { isAuthenticated, signIn, signOut } from "../../utils/auth";
 
 export const Route = createFileRoute("/_auth-layout/login")({
   component: Login,
+  loader: ({ context }) => {
+    const { isLogged } = context.authentication;
+    const checkLogin = isLogged();
+    return checkLogin;
+  },
 });
 
 function Login() {
   const router = useRouter();
+  const checkLogin = Route.useLoaderData();
   return (
     <div>
       <h2>Login</h2>
-      {isAuthenticated() ? (
-        <>
-          <p>Hello user</p>
-          <button
-            onClick={async () => {
-              signOut();
-              router.invalidate();
-              router.navigate({ to: "/" });
-            }}
-          >
-            Sign Out
-          </button>
-        </>
-      ) : (
+      {/* {checkLogin ? ( */}
+      <>
+        <p>Hello user</p>
         <button
           onClick={async () => {
-            signIn();
-            router.invalidate();
+            signOut();
             router.navigate({ to: "/" });
+            // await router.invalidate();
           }}
         >
-          Sign In
+          Sign Out
         </button>
-      )}
+      </>
+      {/* ) : ( */}
+      <button
+        onClick={async () => {
+          signIn();
+          await router.navigate({ to: "/" });
+          // await router.invalidate();
+        }}
+      >
+        Sign In
+      </button>
+      {/* )} */}
     </div>
   );
 }

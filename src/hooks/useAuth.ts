@@ -7,7 +7,10 @@ export const useAuth = () => {
     localStorage.removeItem("isAuthenticated");
   };
 
-  const isLogged = () => localStorage.getItem("isAuthenticated") === "true";
+  const isLogged = () => {
+    const token = localStorage.getItem("isAuthenticated");
+    return !!token;
+  };
 
   return { signIn, signOut, isLogged };
 };

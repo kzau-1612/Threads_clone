@@ -15,7 +15,8 @@ export const Route = createFileRoute("/_layout")({
 function MainLayout() {
   const [opened, { toggle }] = useDisclosure();
   const checkLogin = Route.useLoaderData();
-  console.log("reload");
+  // console.log(checkLogin);
+  // console.log("reload");
 
   return (
     <AppShell
