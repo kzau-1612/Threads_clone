@@ -2,6 +2,8 @@ import { createRouteMask, createRouter, RouterProvider } from "@tanstack/react-r
 import { routeTree } from "./routeTree.gen";
 import { useAuth } from "./hooks/useAuth";
 import NotFound from "./components/NotFound/NotFound";
+import Pending from "./components/Pending/Pending";
+import Error from "./components/Error/Error";
 
 const stepsMask = createRouteMask({
   routeTree,
@@ -16,6 +18,9 @@ const router = createRouter({
     authentication: undefined!,
   },
   defaultNotFoundComponent: NotFound,
+  defaultPendingComponent: Pending,
+  defaultErrorComponent: Error,
+  defaultPendingMs: 100,
   routeMasks: [stepsMask],
 });
 

@@ -1,6 +1,5 @@
 import { Button, Container, Group, Text, Title } from "@mantine/core";
 import classes from "./NotFound.module.css";
-import { signIn } from "../../utils/auth";
 import { useNavigate } from "@tanstack/react-router";
 
 export default function NotFoundTitle() {
