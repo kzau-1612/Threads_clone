@@ -6,6 +6,8 @@ import "@mantine/core/styles.css";
 import App from "./App.tsx";
 import { MantineProvider, createTheme } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
+import { store } from "./stores/store.ts";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,11 +27,13 @@ const theme = createTheme({
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <MantineProvider theme={theme}>
-    <QueryClientProvider client={queryClient}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </QueryClientProvider>
-  </MantineProvider>
+  <React.StrictMode>
+    <MantineProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </QueryClientProvider>
+    </MantineProvider>
+  </React.StrictMode>
 );
