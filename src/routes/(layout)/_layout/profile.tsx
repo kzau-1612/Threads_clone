@@ -9,7 +9,7 @@ const causeError = (message = "Đây là một lỗi từ component!") => {
   throw new Error(message);
 };
 
-export const Route = createFileRoute("/_layout/profile")({
+export const Route = createFileRoute("/(layout)/_layout/profile")({
   component: Profile,
   loader: async () => {
     console.log("Loader đang chạy, đợi 5 giây...");
