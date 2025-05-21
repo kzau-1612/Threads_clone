@@ -1,9 +1,9 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { AppShell, Burger, Group, Skeleton, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { CustomLink } from "../components/CustomLink";
+import { CustomLink } from "../../components/CustomLink";
 
-export const Route = createFileRoute("/_layout")({
+export const Route = createFileRoute("/(layout)/_layout")({
   component: MainLayout,
   loader: ({ context }) => {
     const { isLogged } = context.authentication;

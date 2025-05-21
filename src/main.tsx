@@ -24,6 +24,8 @@ const queryClient = new QueryClient({
 
 const theme = createTheme({
   /** Your theme override here */
+  radius: { xs: "12px", sm: "12px", md: "12px", lg: "12px", xl: "12px" },
+  // fontFamily: "system-ui,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,,sans-serif",
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
