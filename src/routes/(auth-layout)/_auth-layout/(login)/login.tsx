@@ -1,6 +1,6 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { isAuthenticated, signIn, signOut } from "../../../../utils/auth";
-import { PasswordInput, TextInput } from "@mantine/core";
+import { Button, PasswordInput, TextInput } from "@mantine/core";
 import styles from "./login.module.css";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout/(login)/login")({
@@ -18,8 +18,19 @@ function Login() {
   return (
     <form>
       <span className={styles.title}>Đăng nhập với tài khoản Instagram</span>
-      <TextInput placeholder="Tên người dùng, số điện thoại hoặc email" className={styles.input} />
-      <PasswordInput placeholder="Mật khẩu" className={styles.input} size={"md"} mt={"md"} />
+      <TextInput
+        placeholder="Tên người dùng, số điện thoại hoặc email"
+        classNames={{ input: styles.input }}
+        size="lg"
+      />
+      <PasswordInput
+        placeholder="Mật khẩu"
+        classNames={{ input: styles.input, innerInput: styles.innerInput }}
+        size="lg"
+      />
+      <Button variant="filled" color="black" className={styles.button} size={"md"} mt={"md"}>
+        Đăng nhập
+      </Button>
     </form>
   );
 }

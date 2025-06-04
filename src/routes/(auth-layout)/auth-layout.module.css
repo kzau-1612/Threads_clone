@@ -9,12 +9,13 @@
 
 .container {
   max-width: 420px;
+  width: 100%;
   padding: 24px;
   /* margin: 0 auto; */
 }
 
 .img {
-  position: absolute;
+  position: fixed;
   top: -15%;
   left: -7%;
   z-index: 1;

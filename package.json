@@ -16,11 +16,15 @@
     "@tanstack/react-query": "^5.76.0",
     "@tanstack/react-router": "^1.120.3",
     "@tanstack/react-router-devtools": "^1.120.3",
+    "clsx": "^2.1.1",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.57.0",
     "react-redux": "^9.2.0",
-    "valibot": "^1.1.0"
+    "tailwind-merge": "^3.3.0",
+    "valibot": "^1.1.0",
+    "zod": "^3.25.49"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.74.7",
