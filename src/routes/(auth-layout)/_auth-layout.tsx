@@ -25,7 +25,6 @@ function RouteComponent() {
         <img src={imgPng} className={styles.img} />
       </picture>
       <div className={styles.container}>
-        <h1>Hello "/_auth-layout"!</h1>
         <Outlet />
       </div>
     </div>
