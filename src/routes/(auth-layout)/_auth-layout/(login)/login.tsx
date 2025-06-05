@@ -1,7 +1,9 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { isAuthenticated, signIn, signOut } from "../../../../utils/auth";
-import { Anchor, Button, PasswordInput, TextInput } from "@mantine/core";
+import { Anchor, Button, PasswordInput, Text, TextInput } from "@mantine/core";
 import styles from "./login.module.css";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout/(login)/login")({
   component: Login,
@@ -40,6 +42,29 @@ function Login() {
         <div className={styles.or}>
           <span>hoặc</span>
         </div>
+      </div>
+
+      <div className={styles.loginOptions}>
+        <Button variant="outline" color="blue" w="100%">
+          <span className={styles.icon}>
+            <FaFacebookSquare />
+          </span>
+          <span>Facebook</span>
+        </Button>
+        <Button variant="outline" color="red" w="100%">
+          <span className={styles.icon}>
+            <FaGoogle />
+          </span>
+          <span>Google</span>
+        </Button>
+      </div>
+      <div className={styles.register}>
+        <Text>
+          Chưa có tài khoản?
+          <Anchor c="black" underline="never" ml="xs">
+            Đăng ký ngay
+          </Anchor>
+        </Text>
       </div>
     </>
   );

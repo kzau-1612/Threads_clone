@@ -52,3 +52,20 @@
   vertical-align: middle;
   margin: 0 1rem;
 }
+
+.loginOptions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  column-gap: 20px;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.register {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--mantine-color-gray-6);
+}
