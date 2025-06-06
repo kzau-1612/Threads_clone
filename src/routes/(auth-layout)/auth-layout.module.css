@@ -17,6 +17,9 @@
 
 .picture {
   position: absolute;
+  user-select: none;
+  /* top: -20%;
+  left: -10%; */
   margin-top: -500px;
   margin-left: -200px;
   @media (max-width: $mantine-breakpoint-sm) {
