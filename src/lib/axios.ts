@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import { getLocalToken } from "../utils/auth";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -20,7 +21,7 @@ const apiClient: AxiosInstance = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // Lấy token xác thực từ localStorage hoặc Redux store của bạn
-    const token = localStorage.getItem("authToken");
+    const token = getLocalToken();
     // Hoặc từ một nguồn khác, ví dụ: useSelector((state: RootState) => state.auth.token);
 
     if (token) {

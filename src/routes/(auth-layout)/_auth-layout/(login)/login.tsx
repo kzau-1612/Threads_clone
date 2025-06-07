@@ -12,17 +12,9 @@ import { useLogin } from "../../../../services/auth/mutation";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout/(login)/login")({
   component: Login,
-  loader: ({ context }) => {
-    const { isLogged } = context.authentication;
-    const checkLogin = isLogged();
-    return checkLogin;
-  },
 });
 
 function Login() {
-  const router = useRouter();
-  const checkLogin = Route.useLoaderData();
-
   const { mutate, isPending } = useLogin();
 
   const {

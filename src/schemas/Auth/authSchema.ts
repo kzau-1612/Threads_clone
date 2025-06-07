@@ -15,3 +15,12 @@ export interface LoginData {
     status: number;
   };
 }
+
+export interface ProfileData {
+  data: {
+    id: number;
+    name: string;
+    email: string;
+    avatar_path: { avatar_path: string };
+  };
+}
