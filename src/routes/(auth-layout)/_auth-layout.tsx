@@ -5,17 +5,19 @@ import imgWebp from "/src/assets/auth_layout/auth_layout_img.webp";
 import imgPng from "/src/assets/auth_layout/auth_layout_img.png";
 import { FaThreads } from "react-icons/fa6";
 import { Anchor, List } from "@mantine/core";
+import { getLocalToken } from "../../utils/auth";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
   component: RouteComponent,
-  // beforeLoad: ({ context }) => {
-  //   const { isLogged } = context.authentication;
-  //   if (isLogged()) {
-  //     throw redirect({
-  //       to: "/",
-  //     });
-  //   }
-  // },
+  beforeLoad: ({ context }) => {
+    const { isLogged } = context.authentication;
+    const isAuth = getLocalToken() ? true : false;
+    if (isAuth) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
 });
 
 function RouteComponent() {

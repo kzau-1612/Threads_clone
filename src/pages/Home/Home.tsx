@@ -1,36 +1,15 @@
-import { useAppSelector, useAppDispatch } from "../../stores/hooks";
-import { decrement, increment, incrementByAmount } from "../../stores/slices/counterSlice";
+import styles from "./Home.module.css";
+import { useAppSelector } from "../../stores/hooks";
 
 export default function Home() {
-  const count = useAppSelector((state) => state.counter.value);
-  const dispatch = useAppDispatch();
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
+  console.log(isAuth);
+
   return (
     <div>
-      <div>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())} // Gửi action increment
-        >
-          Increment
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())} // Gửi action decrement
-        >
-          Decrement
-        </button>
-      </div>
-      <div>
-        <input
-          type="number"
-          defaultValue="2"
-          onChange={(e) => {
-            const amount = Number(e.target.value) || 0;
-            dispatch(incrementByAmount(amount)); // Gửi action incrementByAmount với payload
-          }}
-        />
-      </div>
+      <span className={styles.spinner}></span>
+      <h1>Home</h1>
+      <p>{isAuth ? "Đã đăng nhập" : "Chua dang nhap"}</p>
     </div>
   );
 }

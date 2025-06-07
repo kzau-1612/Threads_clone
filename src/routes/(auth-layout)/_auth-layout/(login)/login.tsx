@@ -2,13 +2,13 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { isAuthenticated, signIn, signOut } from "../../../../utils/auth";
 import { Anchor, Button, PasswordInput, Text, TextInput } from "@mantine/core";
 import styles from "./login.module.css";
-import notification from "/src/assets/css/Notification.module.css";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { notifications } from "@mantine/notifications";
+import notification from "/src/assets/css/Notification.module.css";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { LoginForm } from "../../../../schemas/Auth/authSchema";
+import { useLogin } from "../../../../services/auth/mutation";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout/(login)/login")({
   component: Login,
@@ -23,14 +23,16 @@ function Login() {
   const router = useRouter();
   const checkLogin = Route.useLoaderData();
 
+  const { mutate, isPending } = useLogin();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<LoginForm>();
 
-  const onSubmit = (data: LoginForm) => {
-    console.log(data);
+  const onSubmit = async (data: LoginForm) => {
+    mutate(data);
     // notifications.show({ message: "Hello", classNames: notification, withCloseButton: false });
   };
 
@@ -51,13 +53,16 @@ function Login() {
           size="lg"
           {...register("password", { required: true })}
         />
+
         <Button
+          loading={isPending}
+          loaderProps={{ type: "custom", size: "lg" }}
           variant="filled"
           color="black"
           className={styles.button}
           mt="md"
           size="lg"
-          disabled={!isValid}
+          disabled={!isValid || isPending}
           type="submit"
         >
           Đăng nhập
