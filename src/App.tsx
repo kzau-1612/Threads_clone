@@ -4,6 +4,8 @@ import { useAuth } from "./hooks/useAuth";
 import NotFound from "./components/NotFound/NotFound";
 import Pending from "./components/Pending/Pending";
 import Error from "./components/Error/Error";
+import { QueryClient } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 const stepsMask = createRouteMask({
   routeTree,
@@ -12,15 +14,18 @@ const stepsMask = createRouteMask({
   search: (prev) => ({ ...prev, step: NaN }),
 });
 
+const queryClient = new QueryClient();
+
 const router = createRouter({
   routeTree,
   context: {
     authentication: undefined!,
+    queryClient,
   },
   defaultNotFoundComponent: NotFound,
   defaultPendingComponent: Pending,
   defaultErrorComponent: Error,
-  defaultPendingMs: 100,
+  defaultPendingMs: 1000,
   routeMasks: [stepsMask],
 });
 

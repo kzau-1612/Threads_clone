@@ -8,6 +8,7 @@ export const Route = createFileRoute("/pokemon/")({
 
 function PokemonList() {
   const pokemons = Route.useLoaderData();
+
   return (
     <div>
       <h2>Pokemons</h2>

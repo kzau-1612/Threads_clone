@@ -1,0 +1,6 @@
+.input {
+  /* color: red; */
+  &::placeholder-shown {
+    /* color: red; */
+  }
+}

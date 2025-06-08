@@ -1,16 +1,46 @@
 import { createSlice } from "@reduxjs/toolkit";
-export type AuthState = { isAuth: boolean };
+import { getAuthProfile } from "../../middlewares/AuthMiddleware";
+
+interface AuthState {
+  isAuth: boolean;
+  user: null | { name: string };
+  isLoading: boolean;
+}
+
+const initialState: AuthState = {
+  isAuth: false,
+  user: { name: "" },
+  isLoading: true,
+};
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    isAuth: false,
-  },
+  initialState,
   reducers: {
-    updateStatus: (state: AuthState, action) => {
+    updateAuthStatus: (state, action) => {
       state.isAuth = action.payload;
     },
+    updateAuthUser: (state, action) => {
+      state.user = action.payload;
+    },
+    updateLoadingStatus: (state, action) => {
+      state.isLoading = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getAuthProfile.fulfilled, (state, action) => {
+      state.isAuth = true;
+      state.user = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(getAuthProfile.rejected, (state) => {
+      state.isAuth = false;
+      state.user = null;
+      state.isLoading = false;
+    });
   },
 });
+
+export const { updateAuthStatus, updateAuthUser, updateLoadingStatus } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,0 +1,22 @@
+/* notification */
+.root {
+  /* background-color: black; */
+
+  &::before {
+    display: none;
+  }
+}
+
+.description,
+.title {
+  /* color: var(--mantine-color-white); */
+  font-weight: 600;
+}
+
+.closeButton {
+  /* color: var(--mantine-color-white); */
+
+  @mixin hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}

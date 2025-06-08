@@ -1,36 +1,31 @@
-import { useAppSelector, useAppDispatch } from "../../stores/hooks";
-import { decrement, increment, incrementByAmount } from "../../stores/slices/counterSlice";
+import styles from "./Home.module.css";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { RootState } from "../../stores/store";
+import Pending from "../../components/Pending/Pending";
 
 export default function Home() {
-  const count = useAppSelector((state) => state.counter.value);
-  const dispatch = useAppDispatch();
+  const { isAuth, user, isLoading } = useAppSelector((state: RootState) => state.auth);
+  console.log(isAuth, user);
+  // console.log(isAuth, user);
+  if (isLoading) return <h1>Loading...</h1>;
+  console.log(isLoading);
+  // console.log(profile);
+
   return (
     <div>
-      <div>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())} // Gửi action increment
-        >
-          Increment
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())} // Gửi action decrement
-        >
-          Decrement
-        </button>
-      </div>
-      <div>
-        <input
-          type="number"
-          defaultValue="2"
-          onChange={(e) => {
-            const amount = Number(e.target.value) || 0;
-            dispatch(incrementByAmount(amount)); // Gửi action incrementByAmount với payload
-          }}
-        />
-      </div>
+      <span className={styles.spinner}></span>
+      <h1>Home</h1>
+      <p>
+        {/* Điều kiện ưu tiên 1: Đang tải hoặc đang chờ dữ liệu người dùng */}
+        {isAuth && !user
+          ? "Đang tải..."
+          : /* Điều kiện ưu tiên 2: Đã đăng nhập và có dữ liệu người dùng (có tên) */
+            isAuth && user // Sử dụng user?.name để kiểm tra null/undefined của name
+            ? `Xin chào: ${user.name}`
+            : /* Điều kiện ưu tiên 3: Đã đăng nhập nhưng không có tên (user có nhưng user.name không có) */
+              !isAuth && !user && "Chưa đăng nhập"}
+      </p>
+      <p></p>
     </div>
   );
 }
