@@ -51,7 +51,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Notifications autoClose={2000} position="top-center" limit={1} w="fit-content" />
           <App />
         </Provider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </MantineProvider>
   </React.StrictMode>

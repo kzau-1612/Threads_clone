@@ -23,16 +23,18 @@ export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
 function RouteComponent() {
   return (
     <div className={styles.root}>
-      <picture className={styles.picture}>
-        <source srcSet={imgAvif} type="image/avif" className={styles.img} />
-        <source srcSet={imgWebp} type="image/webp" className={styles.img} />
-        <img src={imgPng} className={styles.img} />
-      </picture>
-      <div className={styles.topIcon}>
-        <FaThreads className={styles.icon} />
-      </div>
-      <div className={styles.container}>
-        <Outlet />
+      <div className={styles.main}>
+        <picture className={styles.picture}>
+          <source srcSet={imgAvif} type="image/avif" className={styles.img} />
+          <source srcSet={imgWebp} type="image/webp" className={styles.img} />
+          <img src={imgPng} className={styles.img} />
+        </picture>
+        <div className={styles.topIcon}>
+          <FaThreads className={styles.icon} />
+        </div>
+        <div className={styles.container}>
+          <Outlet />
+        </div>
       </div>
       <footer className={styles.footer}>
         <List listStyleType="none" className={styles.list} size="sm">

@@ -1,20 +1,13 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { isAuthenticated, signIn, signOut } from "../../../../utils/auth";
 import { Anchor, Button, PasswordInput, Text, TextInput } from "@mantine/core";
-import styles from "./login.module.css";
+import styles from "./Login.module.css";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { LoginForm } from "../../../../schemas/Auth/authSchema";
-import { useLogin } from "../../../../services/auth/mutation";
-import { infoToast } from "../../../../utils/toast";
-import { AxiosError } from "axios";
+import { LoginForm } from "../../../schemas/Auth/authSchema";
+import { useLogin } from "../../../services/auth/mutation";
+import { CustomLink } from "../../../components/CustomLink";
 
-export const Route = createFileRoute("/(auth-layout)/_auth-layout/(login)/login")({
-  component: Login,
-});
-
-function Login() {
+export default function Login() {
   const { mutate, isPending } = useLogin();
 
   const {
@@ -85,39 +78,11 @@ function Login() {
       <div className={styles.register}>
         <Text>
           Chưa có tài khoản?
-          <Anchor c="black" underline="never" ml="xs">
+          <CustomLink to="/register" className={styles.link}>
             Đăng ký ngay
-          </Anchor>
+          </CustomLink>
         </Text>
       </div>
     </>
   );
 }
-
-//  <div>
-//     <h2>Login</h2>
-//     {/* {checkLogin ? ( */}
-//     <>
-//       <p>Hello user</p>
-//       <button
-//         onClick={async () => {
-//           signOut();
-//           router.navigate({ to: "/" });
-//           // await router.invalidate();
-//         }}
-//       >
-//         Sign Out
-//       </button>
-//     </>
-//     {/* ) : ( */}
-//     <button
-//       onClick={async () => {
-//         signIn();
-//         await router.navigate({ to: "/" });
-//         // await router.invalidate();
-//       }}
-//     >
-//       Sign In
-//     </button>
-//     {/* )} */}
-//   </div>

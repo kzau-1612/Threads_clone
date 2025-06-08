@@ -75,12 +75,10 @@ function MainLayout() {
             <CustomLink to="/search">Search</CustomLink>
           </li>
           <li>
-            <CustomLink to="/login" preload="render">
-              Login
-            </CustomLink>
+            <CustomLink to="/login">Login</CustomLink>
           </li>
 
-          <li>
+          {/* <li>
             <CustomLink
               to="/steps"
               activeOptions={{
@@ -90,7 +88,7 @@ function MainLayout() {
             >
               Steps
             </CustomLink>
-          </li>
+          </li> */}
         </ul>
       </AppShell.Navbar>
       <AppShell.Main>
