@@ -37,9 +37,5 @@ declare module "@tanstack/react-router" {
 
 export default function App() {
   const authentication = useAuth();
-  return (
-    <Suspense fallback={<Pending />}>
-      <RouterProvider router={router} context={{ authentication }} />
-    </Suspense>
-  );
+  return <RouterProvider router={router} context={{ authentication }} />;
 }

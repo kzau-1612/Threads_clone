@@ -4,11 +4,11 @@ import { Anchor, Button, PasswordInput, Text, TextInput } from "@mantine/core";
 import styles from "./login.module.css";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
-import { notifications } from "@mantine/notifications";
-import notification from "/src/assets/css/Notification.module.css";
 import { useForm } from "react-hook-form";
 import { LoginForm } from "../../../../schemas/Auth/authSchema";
 import { useLogin } from "../../../../services/auth/mutation";
+import { infoToast } from "../../../../utils/toast";
+import { AxiosError } from "axios";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout/(login)/login")({
   component: Login,
@@ -25,7 +25,6 @@ function Login() {
 
   const onSubmit = async (data: LoginForm) => {
     mutate(data);
-    // notifications.show({ message: "Hello", classNames: notification, withCloseButton: false });
   };
 
   return (

@@ -10,17 +10,33 @@ import {
   updateAuthUser,
   updateLoadingStatus,
 } from "../../stores/slices/authSlice";
+import { getLocalToken } from "../../utils/auth";
 
 export const Route = createFileRoute("/(layout)/_layout")({
   component: MainLayout,
   loader: async ({ context: { queryClient } }) => {
+    const token = getLocalToken(); // Lấy token hiện tại
+
+    if (!token) {
+      queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
+      console.log("No token found. Profile cache cleared.");
+      store.dispatch(updateAuthStatus(false));
+      store.dispatch(updateAuthUser(null)); // Xóa thông tin người dùng khỏi Redux
+      store.dispatch(updateLoadingStatus(false));
+      return null; // Không có dữ liệu profile để tải
+    }
     try {
       const profileData = await queryClient.ensureQueryData(profileQueryOptions);
-      store.dispatch(updateLoadingStatus(false));
       store.dispatch(updateAuthStatus(true));
       store.dispatch(updateAuthUser(profileData.data));
+      store.dispatch(updateLoadingStatus(false));
     } catch (error) {
       console.log("Profile not available (user not logged in)");
+      queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
+      // Cập nhật trạng thái Redux về chưa xác thực
+      store.dispatch(updateAuthStatus(false));
+      store.dispatch(updateAuthUser(null));
+      store.dispatch(updateLoadingStatus(false));
     }
     return null;
   },
@@ -28,7 +44,6 @@ export const Route = createFileRoute("/(layout)/_layout")({
 
 function MainLayout() {
   const [opened, { toggle }] = useDisclosure();
-  console.log("render");
 
   return (
     <AppShell
