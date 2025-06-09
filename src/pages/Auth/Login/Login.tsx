@@ -13,7 +13,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<LoginForm>();
 
   const onSubmit = async (data: LoginForm) => {
@@ -23,16 +23,16 @@ export default function Login() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <span className={styles.title}>Đăng nhập với tài khoản Instagram</span>
+        <span className={styles.title}>Log in with your Instagram account</span>
         <TextInput
-          placeholder="Tên người dùng, số điện thoại hoặc email"
+          placeholder="Username, phone or email"
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
           {...register("email", { required: true })}
         />
         <PasswordInput
-          placeholder="Mật khẩu"
+          placeholder="Password"
           classNames={{ input: styles.input, innerInput: styles.innerInput }}
           size="lg"
           {...register("password", { required: true })}
@@ -49,12 +49,12 @@ export default function Login() {
           disabled={!isValid || isPending}
           type="submit"
         >
-          Đăng nhập
+          Login
         </Button>
       </form>
       <div className={styles.bottom}>
         <Anchor c="var(--mantine-color-gray-6)" size="sm" underline="never">
-          Quên mật khẩu?
+          Forgot password?
         </Anchor>
         <div className={styles.or}>
           <span>hoặc</span>
@@ -77,9 +77,9 @@ export default function Login() {
       </div>
       <div className={styles.register}>
         <Text>
-          Chưa có tài khoản?
+          Don't have an account?
           <CustomLink to="/register" className={styles.link}>
-            Đăng ký ngay
+            Register
           </CustomLink>
         </Text>
       </div>

@@ -48,7 +48,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <MantineProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <Notifications autoClose={2000} position="top-center" limit={1} w="fit-content" />
+          <Notifications autoClose={3000} position="top-center" limit={3} w="fit-content" />
           <App />
         </Provider>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}

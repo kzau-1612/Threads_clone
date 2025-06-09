@@ -22,11 +22,6 @@
   font-size: 1rem;
 }
 
-.input[data-error="true"] {
-  border-color: red; /* Ví dụ: đổi màu viền thành đỏ */
-  box-shadow: 0 0 0 1px red; /* Ví dụ: thêm shadow màu đỏ */
-}
-
 .input:focus-within {
   border-color: var(--mantine-color-gray-5);
 }
@@ -34,6 +29,15 @@
 .input::placeholder,
 .innerInput::placeholder {
   color: var(--mantine-color-gray-6);
+}
+
+.input[data-error="true"] {
+  border-color: red;
+  box-shadow: 0 0 0 1px red;
+}
+
+.input[data-error="true"]:focus-within {
+  border-color: red;
 }
 
 .bottom {

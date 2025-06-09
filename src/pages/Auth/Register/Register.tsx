@@ -3,32 +3,41 @@ import styles from "./Register.module.css";
 import { useForm } from "react-hook-form";
 import { CustomLink } from "../../../components/CustomLink";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterForm, RegisterFormType } from "../../../schemas/Auth/authSchema";
+import {
+  RegisterForm,
+  RegisterFormInput,
+  RegisterFormType,
+} from "../../../schemas/Auth/authSchema";
+import { useRegister } from "../../../services/auth/mutation";
+import { ROUTES } from "../../../utils/route";
 
 export default function Register() {
+  const { mutate, isPending } = useRegister();
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<RegisterFormType>({
+    formState: { errors },
+  } = useForm<RegisterFormInput>({
     resolver: zodResolver(RegisterForm),
     reValidateMode: "onChange",
   });
 
-  const onSubmit = (data: RegisterFormType) => {
-    console.log(data);
-    // mutate(data);
+  const onSubmit = (data: RegisterFormInput) => {
+    const url = window.location.origin + ROUTES.AUTH.CONFIRM_ACCOUNT;
+    const dataWithUrl: RegisterFormType = {
+      ...data,
+      url_target: url,
+    };
+    mutate(dataWithUrl);
   };
-
-  const error = "Invalid name";
-  console.log(errors);
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <span className={styles.title}>Đăng ký tài khoản</span>
+        <span className={styles.title}>Register account</span>
         <TextInput
-          placeholder="Tên người dùng"
+          placeholder="Name"
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
@@ -36,7 +45,7 @@ export default function Register() {
           {...register("name", { required: true })}
         />
         <TextInput
-          placeholder="Tên đăng nhập"
+          placeholder="Username"
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
@@ -52,7 +61,7 @@ export default function Register() {
           {...register("email", { required: true })}
         />
         <TextInput
-          placeholder="Số điện thoại"
+          placeholder="Phone"
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
@@ -60,14 +69,14 @@ export default function Register() {
           {...register("phone", { required: true })}
         />
         <PasswordInput
-          placeholder="Mật khẩu"
+          placeholder="Password"
           classNames={{ input: styles.input, innerInput: styles.innerInput }}
           size="lg"
           error={errors?.password?.message}
           {...register("password", { required: true })}
         />
         <PasswordInput
-          placeholder="Xác nhận mật khẩu"
+          placeholder="Password confirmation"
           classNames={{ input: styles.input, innerInput: styles.innerInput }}
           size="lg"
           error={errors?.password_confirmation?.message}
@@ -75,24 +84,25 @@ export default function Register() {
         />
 
         <Button
-          //   loading={isPending}
+          loading={isPending}
           loaderProps={{ type: "custom", size: "lg" }}
           variant="filled"
           color="black"
           className={styles.button}
+          disabled={isPending}
           mt="md"
           size="lg"
           type="submit"
         >
-          Đăng nhập
+          Register
         </Button>
       </form>
 
       <div className={styles.register}>
         <Text>
-          Đã có tài khoản?
+          Have an account?
           <CustomLink to="/login" className={styles.link}>
-            Đăng nhập
+            Login
           </CustomLink>
         </Text>
       </div>
