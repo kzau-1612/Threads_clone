@@ -1,20 +1,27 @@
-import { Anchor, Button, PasswordInput, Text, TextInput } from "@mantine/core";
+import { Button, PasswordInput, Text, TextInput } from "@mantine/core";
 import styles from "./Register.module.css";
-import { FaFacebookSquare } from "react-icons/fa";
-import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { CustomLink } from "../../../components/CustomLink";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterForm, RegisterFormType } from "../../../schemas/Auth/authSchema";
 
 export default function Register() {
   const {
     register,
     handleSubmit,
-    formState: { isValid },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm<RegisterFormType>({
+    resolver: zodResolver(RegisterForm),
+    reValidateMode: "onChange",
+  });
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data: RegisterFormType) => {
+    console.log(data);
     // mutate(data);
   };
+
+  const error = "Invalid name";
+  console.log(errors);
 
   return (
     <>
@@ -25,6 +32,7 @@ export default function Register() {
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
+          error={errors?.name?.message}
           {...register("name", { required: true })}
         />
         <TextInput
@@ -32,6 +40,7 @@ export default function Register() {
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
+          error={errors?.username?.message}
           {...register("username", { required: true })}
         />
         <TextInput
@@ -39,6 +48,7 @@ export default function Register() {
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
+          error={errors?.email?.message}
           {...register("email", { required: true })}
         />
         <TextInput
@@ -46,18 +56,21 @@ export default function Register() {
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
+          error={errors?.phone?.message}
           {...register("phone", { required: true })}
         />
         <PasswordInput
           placeholder="Mật khẩu"
           classNames={{ input: styles.input, innerInput: styles.innerInput }}
           size="lg"
+          error={errors?.password?.message}
           {...register("password", { required: true })}
         />
         <PasswordInput
           placeholder="Xác nhận mật khẩu"
           classNames={{ input: styles.input, innerInput: styles.innerInput }}
           size="lg"
+          error={errors?.password_confirmation?.message}
           {...register("password_confirmation", { required: true })}
         />
 
@@ -69,7 +82,6 @@ export default function Register() {
           className={styles.button}
           mt="md"
           size="lg"
-          //   disabled={!isValid || isPending}
           type="submit"
         >
           Đăng nhập

@@ -17,10 +17,14 @@
 
 .input {
   margin-top: 16px;
-
   background-color: var(--mantine-color-gray-1);
   border-color: transparent;
   font-size: 1rem;
+}
+
+.input[data-error="true"] {
+  border-color: red; /* Ví dụ: đổi màu viền thành đỏ */
+  box-shadow: 0 0 0 1px red; /* Ví dụ: thêm shadow màu đỏ */
 }
 
 .input:focus-within {
