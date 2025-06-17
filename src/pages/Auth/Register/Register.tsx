@@ -12,7 +12,7 @@ import { useRegister } from "../../../services/auth/mutation";
 import { ROUTES } from "../../../utils/route";
 
 export default function Register() {
-  const { mutate, isPending } = useRegister();
+  const { mutate, isPending, error } = useRegister();
 
   const {
     register,
@@ -49,7 +49,7 @@ export default function Register() {
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
-          error={errors?.username?.message}
+          error={errors?.username?.message || error?.response?.data?.errors?.username}
           {...register("username", { required: true })}
         />
         <TextInput
@@ -57,7 +57,7 @@ export default function Register() {
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
-          error={errors?.email?.message}
+          error={errors?.email?.message || error?.response?.data?.errors?.email}
           {...register("email", { required: true })}
         />
         <TextInput
@@ -65,7 +65,7 @@ export default function Register() {
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
-          error={errors?.phone?.message}
+          error={errors?.phone?.message || error?.response?.data?.errors?.phone}
           {...register("phone", { required: true })}
         />
         <PasswordInput

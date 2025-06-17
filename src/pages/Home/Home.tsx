@@ -1,15 +1,10 @@
+import { useAppSelector } from "../../stores/hooks";
 import styles from "./Home.module.css";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { RootState } from "../../stores/store";
-import Pending from "../../components/Pending/Pending";
 
 export default function Home() {
-  const { isAuth, user, isLoading } = useAppSelector((state: RootState) => state.auth);
-  console.log(isAuth, user);
+  const { isAuth, user, isLoading } = useAppSelector((state) => state.auth);
   // console.log(isAuth, user);
   if (isLoading) return <h1>Loading...</h1>;
-  console.log(isLoading);
-  // console.log(profile);
 
   return (
     <div>
