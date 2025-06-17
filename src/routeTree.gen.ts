@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VerifyAccountImport } from './routes/verify-account'
 import { Route as StepsImport } from './routes/steps'
 import { Route as SearchImport } from './routes/search'
 import { Route as PokemonIndexImport } from './routes/pokemon/index'
@@ -38,6 +39,12 @@ const layoutRoute = layoutImport.update({
 
 const authLayoutRoute = authLayoutImport.update({
   id: '/(auth-layout)',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VerifyAccountRoute = VerifyAccountImport.update({
+  id: '/verify-account',
+  path: '/verify-account',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -116,6 +123,13 @@ declare module '@tanstack/react-router' {
       path: '/steps'
       fullPath: '/steps'
       preLoaderRoute: typeof StepsImport
+      parentRoute: typeof rootRoute
+    }
+    '/verify-account': {
+      id: '/verify-account'
+      path: '/verify-account'
+      fullPath: '/verify-account'
+      preLoaderRoute: typeof VerifyAccountImport
       parentRoute: typeof rootRoute
     }
     '/(auth-layout)': {
@@ -246,6 +260,7 @@ const layoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
+  '/verify-account': typeof VerifyAccountRoute
   '/': typeof layoutLayoutIndexRoute
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon': typeof PokemonIndexRoute
@@ -257,6 +272,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
+  '/verify-account': typeof VerifyAccountRoute
   '/': typeof layoutLayoutIndexRoute
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon': typeof PokemonIndexRoute
@@ -269,6 +285,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
+  '/verify-account': typeof VerifyAccountRoute
   '/(auth-layout)': typeof authLayoutRouteWithChildren
   '/(auth-layout)/_auth-layout': typeof authLayoutAuthLayoutRouteWithChildren
   '/(layout)': typeof layoutRouteWithChildren
@@ -286,6 +303,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/search'
     | '/steps'
+    | '/verify-account'
     | '/'
     | '/pokemon/$id'
     | '/pokemon'
@@ -296,6 +314,7 @@ export interface FileRouteTypes {
   to:
     | '/search'
     | '/steps'
+    | '/verify-account'
     | '/'
     | '/pokemon/$id'
     | '/pokemon'
@@ -306,6 +325,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/search'
     | '/steps'
+    | '/verify-account'
     | '/(auth-layout)'
     | '/(auth-layout)/_auth-layout'
     | '/(layout)'
@@ -322,6 +342,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   StepsRoute: typeof StepsRoute
+  VerifyAccountRoute: typeof VerifyAccountRoute
   authLayoutRoute: typeof authLayoutRouteWithChildren
   layoutRoute: typeof layoutRouteWithChildren
   PokemonIdRoute: typeof PokemonIdRoute
@@ -331,6 +352,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   StepsRoute: StepsRoute,
+  VerifyAccountRoute: VerifyAccountRoute,
   authLayoutRoute: authLayoutRouteWithChildren,
   layoutRoute: layoutRouteWithChildren,
   PokemonIdRoute: PokemonIdRoute,
@@ -349,6 +371,7 @@ export const routeTree = rootRoute
       "children": [
         "/search",
         "/steps",
+        "/verify-account",
         "/(auth-layout)",
         "/(layout)",
         "/pokemon/$id",
@@ -360,6 +383,9 @@ export const routeTree = rootRoute
     },
     "/steps": {
       "filePath": "steps.tsx"
+    },
+    "/verify-account": {
+      "filePath": "verify-account.tsx"
     },
     "/(auth-layout)": {
       "filePath": "(auth-layout)",

@@ -6,12 +6,14 @@ import imgPng from "/src/assets/auth_layout/auth_layout_img.png";
 import { FaThreads } from "react-icons/fa6";
 import { Anchor, List } from "@mantine/core";
 import { getLocalToken } from "../../utils/auth";
+import { store } from "../../stores/store";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
     const { isLogged } = context.authentication;
-    const isAuth = getLocalToken() ? true : false;
+    const isAuth = store?.getState()?.auth?.isAuth;
+    console.log(isAuth);
     if (isAuth) {
       throw redirect({
         to: "/",

@@ -16,8 +16,10 @@ export const Route = createFileRoute("/(layout)/_layout")({
   component: MainLayout,
   loader: async ({ context: { queryClient } }) => {
     const token = getLocalToken(); // Lấy token hiện tại
+    const isAuth = store.getState().auth.isAuth; // Lấy trạng thái đăng nhập
+    console.log(isAuth);
 
-    if (!token) {
+    if (!token && !isAuth) {
       queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
       console.log("No token found. Profile cache cleared.");
       store.dispatch(updateAuthStatus(false));

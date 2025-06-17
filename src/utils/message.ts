@@ -37,5 +37,9 @@ export const MESSAGES = {
         "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character",
       PASSWORD_NOT_MATCH: "Confirmation password does not match",
     },
+    SEND_VERIFICATION_EMAIL: {
+      SUCCESS: "Verification email sent successfully, please check your email",
+      FAILED: "Failed to send verification email",
+    },
   },
 };

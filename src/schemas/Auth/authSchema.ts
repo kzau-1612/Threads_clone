@@ -102,3 +102,14 @@ export interface ProfileData {
     avatar_path: { avatar_path: string };
   };
 }
+
+//send email
+export interface SendEmailData {
+  access_token: string;
+  url_target: string;
+}
+
+export interface SendEmailResponse {
+  status: string;
+  message: string;
+}

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { login, register } from "./api";
+import { login, register, sendVerificationEmail } from "./api";
 import { saveLocalRefreshToken, saveLocalToken } from "../../utils/auth";
 import { updateAuthStatus } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../stores/hooks";
@@ -8,6 +8,7 @@ import { infoToast } from "../../utils/toast";
 import { AxiosError } from "axios";
 import { MESSAGES } from "../../utils/message";
 import { RegisterErrorResponse } from "../../schemas/Auth/authSchema";
+import { ROUTES } from "../../utils/route";
 
 //login
 export const useLogin = () => {
@@ -20,9 +21,14 @@ export const useLogin = () => {
       console.log(data);
       saveLocalToken(data.access_token);
       saveLocalRefreshToken(data.refresh_token);
-      dispatch(updateAuthStatus(true));
-      navigate({ to: "/" });
-      infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
+      if (data.user.status === 0) {
+        navigate({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
+        infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
+      } else {
+        dispatch(updateAuthStatus(true));
+        navigate({ to: "/" });
+        infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
+      }
     },
     onError: (error: AxiosError) => {
       console.log(error);
@@ -72,6 +78,26 @@ export const useRegister = () => {
         // Tạo một thông báo duy nhất từ tất cả các lỗi
       } else {
         infoToast({ message: MESSAGES.AUTH.REGISTER.FAILED });
+      }
+    },
+  });
+};
+
+export const useSendVerificationEmail = () => {
+  return useMutation({
+    mutationFn: sendVerificationEmail,
+    onSuccess: (data) => {
+      console.log(data);
+      infoToast({ message: MESSAGES.AUTH.SEND_VERIFICATION_EMAIL.SUCCESS });
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      console.log(error);
+      const status = error.response?.status;
+      const message = error.response?.data?.message;
+      if (status === 401) {
+        infoToast({ message });
+      } else {
+        infoToast({ message: MESSAGES.AUTH.SEND_VERIFICATION_EMAIL.FAILED });
       }
     },
   });

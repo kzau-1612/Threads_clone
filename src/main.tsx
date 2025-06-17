@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { store } from "./stores/store.ts";
 import { CustomLoader } from "./components/Common/CustomLoader.tsx";
+import { ModalsProvider } from "@mantine/modals";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,8 +49,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <MantineProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <Notifications autoClose={3000} position="top-center" limit={3} w="fit-content" />
-          <App />
+          <ModalsProvider labels={{ confirm: "Submit", cancel: "Cancel" }}>
+            <Notifications autoClose={3000} position="top-center" limit={3} w="fit-content" />
+            <App />
+          </ModalsProvider>
         </Provider>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>

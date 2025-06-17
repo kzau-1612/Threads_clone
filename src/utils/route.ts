@@ -3,5 +3,6 @@ export const ROUTES = {
     LOGIN: "/login",
     REGISTER: "/register",
     CONFIRM_ACCOUNT: "/confirm-account",
+    VERIFY_ACCOUNT: "/verify-account",
   },
 };
