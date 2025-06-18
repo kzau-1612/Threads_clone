@@ -6,12 +6,14 @@ import imgPng from "/src/assets/auth_layout/auth_layout_img.png";
 import { FaThreads } from "react-icons/fa6";
 import { Anchor, List } from "@mantine/core";
 import { getLocalToken } from "../../utils/auth";
+import { store } from "../../stores/store";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
     const { isLogged } = context.authentication;
-    const isAuth = getLocalToken() ? true : false;
+    const isAuth = store?.getState()?.auth?.isAuth;
+    console.log(isAuth);
     if (isAuth) {
       throw redirect({
         to: "/",
@@ -23,16 +25,18 @@ export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
 function RouteComponent() {
   return (
     <div className={styles.root}>
-      <picture className={styles.picture}>
-        <source srcSet={imgAvif} type="image/avif" className={styles.img} />
-        <source srcSet={imgWebp} type="image/webp" className={styles.img} />
-        <img src={imgPng} className={styles.img} />
-      </picture>
-      <div className={styles.topIcon}>
-        <FaThreads className={styles.icon} />
-      </div>
-      <div className={styles.container}>
-        <Outlet />
+      <div className={styles.main}>
+        <picture className={styles.picture}>
+          <source srcSet={imgAvif} type="image/avif" className={styles.img} />
+          <source srcSet={imgWebp} type="image/webp" className={styles.img} />
+          <img src={imgPng} className={styles.img} />
+        </picture>
+        <div className={styles.topIcon}>
+          <FaThreads className={styles.icon} />
+        </div>
+        <div className={styles.container}>
+          <Outlet />
+        </div>
       </div>
       <footer className={styles.footer}>
         <List listStyleType="none" className={styles.list} size="sm">

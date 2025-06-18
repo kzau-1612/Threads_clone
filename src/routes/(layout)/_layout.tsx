@@ -16,8 +16,10 @@ export const Route = createFileRoute("/(layout)/_layout")({
   component: MainLayout,
   loader: async ({ context: { queryClient } }) => {
     const token = getLocalToken(); // Lấy token hiện tại
+    const isAuth = store.getState().auth.isAuth; // Lấy trạng thái đăng nhập
+    console.log(isAuth);
 
-    if (!token) {
+    if (!token && !isAuth) {
       queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
       console.log("No token found. Profile cache cleared.");
       store.dispatch(updateAuthStatus(false));
@@ -75,12 +77,10 @@ function MainLayout() {
             <CustomLink to="/search">Search</CustomLink>
           </li>
           <li>
-            <CustomLink to="/login" preload="render">
-              Login
-            </CustomLink>
+            <CustomLink to="/login">Login</CustomLink>
           </li>
 
-          <li>
+          {/* <li>
             <CustomLink
               to="/steps"
               activeOptions={{
@@ -90,7 +90,7 @@ function MainLayout() {
             >
               Steps
             </CustomLink>
-          </li>
+          </li> */}
         </ul>
       </AppShell.Navbar>
       <AppShell.Main>

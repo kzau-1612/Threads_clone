@@ -16,7 +16,7 @@ function RootComponent() {
   return (
     <>
       <Outlet />
-      <TanStackRouterDevtools />
+      {/* <TanStackRouterDevtools /> */}
     </>
   );
 }

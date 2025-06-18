@@ -1,26 +1,19 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { isAuthenticated, signIn, signOut } from "../../../../utils/auth";
 import { Anchor, Button, PasswordInput, Text, TextInput } from "@mantine/core";
-import styles from "./login.module.css";
+import styles from "./Login.module.css";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { LoginForm } from "../../../../schemas/Auth/authSchema";
-import { useLogin } from "../../../../services/auth/mutation";
-import { infoToast } from "../../../../utils/toast";
-import { AxiosError } from "axios";
+import { LoginForm } from "../../../schemas/Auth/authSchema";
+import { useLogin } from "../../../services/auth/mutation";
+import { CustomLink } from "../../../components/CustomLink";
 
-export const Route = createFileRoute("/(auth-layout)/_auth-layout/(login)/login")({
-  component: Login,
-});
-
-function Login() {
+export default function Login() {
   const { mutate, isPending } = useLogin();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<LoginForm>();
 
   const onSubmit = async (data: LoginForm) => {
@@ -30,16 +23,16 @@ function Login() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <span className={styles.title}>Đăng nhập với tài khoản Instagram</span>
+        <span className={styles.title}>Log in with your Instagram account</span>
         <TextInput
-          placeholder="Tên người dùng, số điện thoại hoặc email"
+          placeholder="Username, phone or email"
           classNames={{ input: styles.input }}
           size="lg"
           autoFocus
           {...register("email", { required: true })}
         />
         <PasswordInput
-          placeholder="Mật khẩu"
+          placeholder="Password"
           classNames={{ input: styles.input, innerInput: styles.innerInput }}
           size="lg"
           {...register("password", { required: true })}
@@ -56,12 +49,12 @@ function Login() {
           disabled={!isValid || isPending}
           type="submit"
         >
-          Đăng nhập
+          Login
         </Button>
       </form>
       <div className={styles.bottom}>
         <Anchor c="var(--mantine-color-gray-6)" size="sm" underline="never">
-          Quên mật khẩu?
+          Forgot password?
         </Anchor>
         <div className={styles.or}>
           <span>hoặc</span>
@@ -84,40 +77,12 @@ function Login() {
       </div>
       <div className={styles.register}>
         <Text>
-          Chưa có tài khoản?
-          <Anchor c="black" underline="never" ml="xs">
-            Đăng ký ngay
-          </Anchor>
+          Don't have an account?
+          <CustomLink to="/register" className={styles.link}>
+            Register
+          </CustomLink>
         </Text>
       </div>
     </>
   );
 }
-
-//  <div>
-//     <h2>Login</h2>
-//     {/* {checkLogin ? ( */}
-//     <>
-//       <p>Hello user</p>
-//       <button
-//         onClick={async () => {
-//           signOut();
-//           router.navigate({ to: "/" });
-//           // await router.invalidate();
-//         }}
-//       >
-//         Sign Out
-//       </button>
-//     </>
-//     {/* ) : ( */}
-//     <button
-//       onClick={async () => {
-//         signIn();
-//         await router.navigate({ to: "/" });
-//         // await router.invalidate();
-//       }}
-//     >
-//       Sign In
-//     </button>
-//     {/* )} */}
-//   </div>

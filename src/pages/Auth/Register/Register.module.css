@@ -17,7 +17,6 @@
 
 .input {
   margin-top: 16px;
-
   background-color: var(--mantine-color-gray-1);
   border-color: transparent;
   font-size: 1rem;
@@ -30,6 +29,15 @@
 .input::placeholder,
 .innerInput::placeholder {
   color: var(--mantine-color-gray-6);
+}
+
+.input[data-error="true"] {
+  border-color: red;
+  box-shadow: 0 0 0 1px red;
+}
+
+.input[data-error="true"]:focus-within {
+  border-color: red;
 }
 
 .bottom {
@@ -68,4 +76,10 @@
   text-align: center;
   margin-top: 1rem;
   color: var(--mantine-color-gray-6);
+}
+
+.link {
+  color: black;
+  margin-left: 5px;
+  text-decoration: none;
 }

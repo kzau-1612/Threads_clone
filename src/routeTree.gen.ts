@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VerifyAccountImport } from './routes/verify-account'
 import { Route as StepsImport } from './routes/steps'
 import { Route as SearchImport } from './routes/search'
 import { Route as PokemonIndexImport } from './routes/pokemon/index'
@@ -21,7 +22,8 @@ import { Route as layoutLayoutImport } from './routes/(layout)/_layout'
 import { Route as authLayoutAuthLayoutImport } from './routes/(auth-layout)/_auth-layout'
 import { Route as layoutLayoutIndexImport } from './routes/(layout)/_layout/index'
 import { Route as layoutLayoutProfileImport } from './routes/(layout)/_layout/profile'
-import { Route as authLayoutAuthLayoutloginLoginImport } from './routes/(auth-layout)/_auth-layout/(login)/login'
+import { Route as authLayoutAuthLayoutRegisterImport } from './routes/(auth-layout)/_auth-layout/register'
+import { Route as authLayoutAuthLayoutLoginImport } from './routes/(auth-layout)/_auth-layout/login'
 
 // Create Virtual Routes
 
@@ -37,6 +39,12 @@ const layoutRoute = layoutImport.update({
 
 const authLayoutRoute = authLayoutImport.update({
   id: '/(auth-layout)',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VerifyAccountRoute = VerifyAccountImport.update({
+  id: '/verify-account',
+  path: '/verify-account',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -86,12 +94,18 @@ const layoutLayoutProfileRoute = layoutLayoutProfileImport.update({
   getParentRoute: () => layoutLayoutRoute,
 } as any)
 
-const authLayoutAuthLayoutloginLoginRoute =
-  authLayoutAuthLayoutloginLoginImport.update({
-    id: '/(login)/login',
-    path: '/login',
+const authLayoutAuthLayoutRegisterRoute =
+  authLayoutAuthLayoutRegisterImport.update({
+    id: '/register',
+    path: '/register',
     getParentRoute: () => authLayoutAuthLayoutRoute,
   } as any)
+
+const authLayoutAuthLayoutLoginRoute = authLayoutAuthLayoutLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => authLayoutAuthLayoutRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -109,6 +123,13 @@ declare module '@tanstack/react-router' {
       path: '/steps'
       fullPath: '/steps'
       preLoaderRoute: typeof StepsImport
+      parentRoute: typeof rootRoute
+    }
+    '/verify-account': {
+      id: '/verify-account'
+      path: '/verify-account'
+      fullPath: '/verify-account'
+      preLoaderRoute: typeof VerifyAccountImport
       parentRoute: typeof rootRoute
     }
     '/(auth-layout)': {
@@ -153,6 +174,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PokemonIndexImport
       parentRoute: typeof rootRoute
     }
+    '/(auth-layout)/_auth-layout/login': {
+      id: '/(auth-layout)/_auth-layout/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLayoutAuthLayoutLoginImport
+      parentRoute: typeof authLayoutAuthLayoutImport
+    }
+    '/(auth-layout)/_auth-layout/register': {
+      id: '/(auth-layout)/_auth-layout/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authLayoutAuthLayoutRegisterImport
+      parentRoute: typeof authLayoutAuthLayoutImport
+    }
     '/(layout)/_layout/profile': {
       id: '/(layout)/_layout/profile'
       path: '/profile'
@@ -167,24 +202,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof layoutLayoutIndexImport
       parentRoute: typeof layoutLayoutImport
     }
-    '/(auth-layout)/_auth-layout/(login)/login': {
-      id: '/(auth-layout)/_auth-layout/(login)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLayoutAuthLayoutloginLoginImport
-      parentRoute: typeof authLayoutAuthLayoutImport
-    }
   }
 }
 
 // Create and export the route tree
 
 interface authLayoutAuthLayoutRouteChildren {
-  authLayoutAuthLayoutloginLoginRoute: typeof authLayoutAuthLayoutloginLoginRoute
+  authLayoutAuthLayoutLoginRoute: typeof authLayoutAuthLayoutLoginRoute
+  authLayoutAuthLayoutRegisterRoute: typeof authLayoutAuthLayoutRegisterRoute
 }
 
 const authLayoutAuthLayoutRouteChildren: authLayoutAuthLayoutRouteChildren = {
-  authLayoutAuthLayoutloginLoginRoute: authLayoutAuthLayoutloginLoginRoute,
+  authLayoutAuthLayoutLoginRoute: authLayoutAuthLayoutLoginRoute,
+  authLayoutAuthLayoutRegisterRoute: authLayoutAuthLayoutRegisterRoute,
 }
 
 const authLayoutAuthLayoutRouteWithChildren =
@@ -230,36 +260,42 @@ const layoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
+  '/verify-account': typeof VerifyAccountRoute
   '/': typeof layoutLayoutIndexRoute
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon': typeof PokemonIndexRoute
+  '/login': typeof authLayoutAuthLayoutLoginRoute
+  '/register': typeof authLayoutAuthLayoutRegisterRoute
   '/profile': typeof layoutLayoutProfileRoute
-  '/login': typeof authLayoutAuthLayoutloginLoginRoute
 }
 
 export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
+  '/verify-account': typeof VerifyAccountRoute
   '/': typeof layoutLayoutIndexRoute
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon': typeof PokemonIndexRoute
+  '/login': typeof authLayoutAuthLayoutLoginRoute
+  '/register': typeof authLayoutAuthLayoutRegisterRoute
   '/profile': typeof layoutLayoutProfileRoute
-  '/login': typeof authLayoutAuthLayoutloginLoginRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/search': typeof SearchRoute
   '/steps': typeof StepsRoute
+  '/verify-account': typeof VerifyAccountRoute
   '/(auth-layout)': typeof authLayoutRouteWithChildren
   '/(auth-layout)/_auth-layout': typeof authLayoutAuthLayoutRouteWithChildren
   '/(layout)': typeof layoutRouteWithChildren
   '/(layout)/_layout': typeof layoutLayoutRouteWithChildren
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon/': typeof PokemonIndexRoute
+  '/(auth-layout)/_auth-layout/login': typeof authLayoutAuthLayoutLoginRoute
+  '/(auth-layout)/_auth-layout/register': typeof authLayoutAuthLayoutRegisterRoute
   '/(layout)/_layout/profile': typeof layoutLayoutProfileRoute
   '/(layout)/_layout/': typeof layoutLayoutIndexRoute
-  '/(auth-layout)/_auth-layout/(login)/login': typeof authLayoutAuthLayoutloginLoginRoute
 }
 
 export interface FileRouteTypes {
@@ -267,39 +303,46 @@ export interface FileRouteTypes {
   fullPaths:
     | '/search'
     | '/steps'
+    | '/verify-account'
     | '/'
     | '/pokemon/$id'
     | '/pokemon'
-    | '/profile'
     | '/login'
+    | '/register'
+    | '/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/search'
     | '/steps'
+    | '/verify-account'
     | '/'
     | '/pokemon/$id'
     | '/pokemon'
-    | '/profile'
     | '/login'
+    | '/register'
+    | '/profile'
   id:
     | '__root__'
     | '/search'
     | '/steps'
+    | '/verify-account'
     | '/(auth-layout)'
     | '/(auth-layout)/_auth-layout'
     | '/(layout)'
     | '/(layout)/_layout'
     | '/pokemon/$id'
     | '/pokemon/'
+    | '/(auth-layout)/_auth-layout/login'
+    | '/(auth-layout)/_auth-layout/register'
     | '/(layout)/_layout/profile'
     | '/(layout)/_layout/'
-    | '/(auth-layout)/_auth-layout/(login)/login'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   StepsRoute: typeof StepsRoute
+  VerifyAccountRoute: typeof VerifyAccountRoute
   authLayoutRoute: typeof authLayoutRouteWithChildren
   layoutRoute: typeof layoutRouteWithChildren
   PokemonIdRoute: typeof PokemonIdRoute
@@ -309,6 +352,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   StepsRoute: StepsRoute,
+  VerifyAccountRoute: VerifyAccountRoute,
   authLayoutRoute: authLayoutRouteWithChildren,
   layoutRoute: layoutRouteWithChildren,
   PokemonIdRoute: PokemonIdRoute,
@@ -327,6 +371,7 @@ export const routeTree = rootRoute
       "children": [
         "/search",
         "/steps",
+        "/verify-account",
         "/(auth-layout)",
         "/(layout)",
         "/pokemon/$id",
@@ -339,6 +384,9 @@ export const routeTree = rootRoute
     "/steps": {
       "filePath": "steps.tsx"
     },
+    "/verify-account": {
+      "filePath": "verify-account.tsx"
+    },
     "/(auth-layout)": {
       "filePath": "(auth-layout)",
       "children": [
@@ -349,7 +397,8 @@ export const routeTree = rootRoute
       "filePath": "(auth-layout)/_auth-layout.tsx",
       "parent": "/(auth-layout)",
       "children": [
-        "/(auth-layout)/_auth-layout/(login)/login"
+        "/(auth-layout)/_auth-layout/login",
+        "/(auth-layout)/_auth-layout/register"
       ]
     },
     "/(layout)": {
@@ -372,6 +421,14 @@ export const routeTree = rootRoute
     "/pokemon/": {
       "filePath": "pokemon/index.tsx"
     },
+    "/(auth-layout)/_auth-layout/login": {
+      "filePath": "(auth-layout)/_auth-layout/login.tsx",
+      "parent": "/(auth-layout)/_auth-layout"
+    },
+    "/(auth-layout)/_auth-layout/register": {
+      "filePath": "(auth-layout)/_auth-layout/register.tsx",
+      "parent": "/(auth-layout)/_auth-layout"
+    },
     "/(layout)/_layout/profile": {
       "filePath": "(layout)/_layout/profile.tsx",
       "parent": "/(layout)/_layout"
@@ -379,10 +436,6 @@ export const routeTree = rootRoute
     "/(layout)/_layout/": {
       "filePath": "(layout)/_layout/index.tsx",
       "parent": "/(layout)/_layout"
-    },
-    "/(auth-layout)/_auth-layout/(login)/login": {
-      "filePath": "(auth-layout)/_auth-layout/(login)/login.tsx",
-      "parent": "/(auth-layout)/_auth-layout"
     }
   }
 }
