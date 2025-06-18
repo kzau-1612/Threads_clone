@@ -13,23 +13,27 @@ export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
   component: RouteComponent,
   beforeLoad: ({ location }) => {
     const { isAuth, user } = store.getState().auth;
-    const excludePaths = [ROUTES.AUTH.VERIFY_ACCOUNT];
-    if (excludePaths.includes(location.pathname)) {
-      if (!isAuth && !user && !getLocalToken()) {
-        throw redirect({ to: ROUTES.AUTH.LOGIN });
-      }
-      if (isAuth && user && user.status === 0) {
-        return;
-      }
-    }
+    console.log(isAuth, user);
+    const token = getLocalToken();
 
     if (location.pathname === ROUTES.AUTH.ACTIVE_ACCOUNT) {
       return;
     }
+
+    if (!isAuth && !user && !token) {
+      throw redirect({ to: ROUTES.AUTH.LOGIN });
+    }
+
     if (isAuth && user) {
       throw redirect({
         to: "/",
       });
+    }
+
+    if (location.pathname === ROUTES.AUTH.VERIFY_ACCOUNT) {
+      if (isAuth && user && user.status === 0) {
+        return;
+      }
     }
   },
 });

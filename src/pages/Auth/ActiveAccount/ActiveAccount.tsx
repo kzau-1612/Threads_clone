@@ -12,7 +12,7 @@ export default function ActiveAccount() {
 
   useEffect(() => {
     console.log(token);
-    if (token && token !== "undefined") {
+    if (token && token !== "undefined" && !isPending && !isSuccess) {
       mutate(token);
     }
   }, []);
@@ -33,7 +33,12 @@ export default function ActiveAccount() {
   }
 
   if (isPending) {
-    return <CustomLoader />;
+    return (
+      <Alert variant="light" color="blue" title="Pending" icon={icon}>
+        <Text>Verifying account...</Text>
+        <CustomLoader />
+      </Alert>
+    );
   }
 
   if (isError) {

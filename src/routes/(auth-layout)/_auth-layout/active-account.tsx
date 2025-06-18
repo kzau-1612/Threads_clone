@@ -6,5 +6,10 @@ export const Route = createFileRoute("/(auth-layout)/_auth-layout/active-account
   validateSearch: (search: Record<string, unknown>): ConfirmToken => {
     return confirmTokenSchema.parse(search);
   },
+  // loaderDeps: ({ search: { token } }) => ({
+  //   token,
+  // }),
+  // loader: async ({ deps: { token } }) => console.log(token),
+
   component: ActiveAccount,
 });

@@ -33,7 +33,6 @@ export const Route = createFileRoute("/(layout)/_layout")({
     } catch (error) {
       console.log("Profile not available (user not logged in)");
       queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
-      // Cập nhật trạng thái Redux về chưa xác thực
       store.dispatch(resetAuth());
     }
     return null;
