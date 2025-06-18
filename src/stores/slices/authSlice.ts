@@ -3,13 +3,13 @@ import { getAuthProfile } from "../../middlewares/AuthMiddleware";
 
 interface AuthState {
   isAuth: boolean;
-  user: null | { name: string };
+  user: null | { name: string; email: string; status: number };
   isLoading: boolean;
 }
 
 const initialState: AuthState = {
   isAuth: false,
-  user: { name: "" },
+  user: null,
   isLoading: true,
 };
 
@@ -26,6 +26,16 @@ export const authSlice = createSlice({
     updateLoadingStatus: (state, action) => {
       state.isLoading = action.payload;
     },
+    resetAuth: (state) => {
+      state.isAuth = false;
+      state.user = null;
+      state.isLoading = false;
+    },
+    updateAuth: (state, action) => {
+      state.isAuth = true;
+      state.user = action.payload.user;
+      state.isLoading = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAuthProfile.fulfilled, (state, action) => {
@@ -41,6 +51,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { updateAuthStatus, updateAuthUser, updateLoadingStatus } = authSlice.actions;
+export const { updateAuthStatus, updateAuthUser, updateLoadingStatus, resetAuth, updateAuth } =
+  authSlice.actions;
 
 export default authSlice.reducer;

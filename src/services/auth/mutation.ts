@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { login, register, sendVerificationEmail } from "./api";
 import { saveLocalRefreshToken, saveLocalToken } from "../../utils/auth";
-import { updateAuthStatus } from "../../stores/slices/authSlice";
+import { updateAuthStatus, updateAuthUser } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../stores/hooks";
 import { infoToast } from "../../utils/toast";
 import { AxiosError } from "axios";
@@ -22,6 +22,7 @@ export const useLogin = () => {
       saveLocalToken(data.access_token);
       saveLocalRefreshToken(data.refresh_token);
       if (data.user.status === 0) {
+        dispatch(updateAuthUser(data.user));
         navigate({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
         infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
       } else {

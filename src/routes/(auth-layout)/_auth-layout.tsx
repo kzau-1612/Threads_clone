@@ -7,14 +7,23 @@ import { FaThreads } from "react-icons/fa6";
 import { Anchor, List } from "@mantine/core";
 import { getLocalToken } from "../../utils/auth";
 import { store } from "../../stores/store";
+import { ROUTES } from "../../utils/route";
 
 export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
   component: RouteComponent,
-  beforeLoad: ({ context }) => {
-    const { isLogged } = context.authentication;
-    const isAuth = store?.getState()?.auth?.isAuth;
-    console.log(isAuth);
-    if (isAuth) {
+  beforeLoad: ({ location }) => {
+    const { isAuth, user } = store.getState().auth;
+    const excludePaths = ["/verify-account"];
+    if (excludePaths.includes(location.pathname)) {
+      if (!isAuth && !user && !getLocalToken()) {
+        throw redirect({ to: ROUTES.AUTH.LOGIN });
+      }
+      if (!isAuth && user && user.status === 0) {
+        return;
+      }
+    }
+
+    if (isAuth && user) {
       throw redirect({
         to: "/",
       });

@@ -100,6 +100,7 @@ export interface ProfileData {
     name: string;
     email: string;
     avatar_path: { avatar_path: string };
+    status: number;
   };
 }
 

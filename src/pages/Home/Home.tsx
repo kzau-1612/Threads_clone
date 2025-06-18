@@ -3,6 +3,7 @@ import styles from "./Home.module.css";
 
 export default function Home() {
   const { isAuth, user, isLoading } = useAppSelector((state) => state.auth);
+  console.log(user, isAuth);
   // console.log(isAuth, user);
   if (isLoading) return <h1>Loading...</h1>;
 
