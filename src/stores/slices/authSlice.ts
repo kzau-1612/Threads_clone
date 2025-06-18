@@ -33,7 +33,7 @@ export const authSlice = createSlice({
     },
     updateAuth: (state, action) => {
       state.isAuth = true;
-      state.user = action.payload.user;
+      state.user = action.payload;
       state.isLoading = false;
     },
   },

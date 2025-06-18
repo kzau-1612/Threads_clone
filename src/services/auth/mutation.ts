@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { login, register, sendVerificationEmail } from "./api";
+import { activeAccount, login, register, sendVerificationEmail } from "./api";
 import { saveLocalRefreshToken, saveLocalToken } from "../../utils/auth";
 import { updateAuthStatus, updateAuthUser } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../stores/hooks";
@@ -21,12 +21,12 @@ export const useLogin = () => {
       console.log(data);
       saveLocalToken(data.access_token);
       saveLocalRefreshToken(data.refresh_token);
+      dispatch(updateAuthStatus(true));
+      dispatch(updateAuthUser(data.user));
       if (data.user.status === 0) {
-        dispatch(updateAuthUser(data.user));
         navigate({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
         infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
       } else {
-        dispatch(updateAuthStatus(true));
         navigate({ to: "/" });
         infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
       }
@@ -100,6 +100,15 @@ export const useSendVerificationEmail = () => {
       } else {
         infoToast({ message: MESSAGES.AUTH.SEND_VERIFICATION_EMAIL.FAILED });
       }
+    },
+  });
+};
+
+export const useActiveAccount = () => {
+  return useMutation({
+    mutationFn: activeAccount,
+    onError: (error) => {
+      console.log(error);
     },
   });
 };

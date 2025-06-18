@@ -1,5 +1,6 @@
 import apiClient from "../../lib/axios";
 import {
+  ActiveAccountResponse,
   LoginData,
   LoginForm,
   ProfileData,
@@ -36,5 +37,10 @@ export const sendVerificationEmail = async (data: SendEmailData): Promise<SendEm
       },
     }
   );
+  return response.data;
+};
+
+export const activeAccount = async (token: string): Promise<ActiveAccountResponse> => {
+  const response = await apiClient.patch("/confirm-account", { token });
   return response.data;
 };

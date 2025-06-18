@@ -5,9 +5,12 @@ import { useSendVerificationEmail } from "../../../services/auth/mutation";
 import { getLocalToken, removeToken } from "../../../utils/auth";
 import { ROUTES } from "../../../utils/route";
 import { useNavigate } from "@tanstack/react-router";
+import { useAppDispatch } from "../../../stores/hooks";
+import { resetAuth } from "../../../stores/slices/authSlice";
 
 export default function SendVerification() {
   const { mutate, isPending } = useSendVerificationEmail();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +30,13 @@ export default function SendVerification() {
         loading: isPending,
       },
       onConfirm: () => {
-        const url = window.location.origin + ROUTES.AUTH.CONFIRM_ACCOUNT;
+        const url = window.location.origin + ROUTES.AUTH.ACTIVE_ACCOUNT;
         const accessToken = getLocalToken() ?? "";
         mutate({ url_target: url, access_token: accessToken });
       },
       onCancel: () => {
         removeToken();
+        dispatch(resetAuth());
         modals.closeAll();
         navigate({ to: "/login" });
       },
