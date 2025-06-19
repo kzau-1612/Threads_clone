@@ -125,3 +125,23 @@ export interface ActiveAccountResponse {
   status: string;
   message: string;
 }
+
+//forgot password
+export const ForgotPasswordSchema = z.object({
+  email: z
+    .string()
+    .min(1, MESSAGES.AUTH.FORGOT_PASSWORD.EMAIL_REQUIRED)
+    .email(MESSAGES.AUTH.FORGOT_PASSWORD.EMAIL_INVALID),
+});
+
+export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>;
+
+export interface ForgotPasswordResponse {
+  status: string;
+  message: string;
+}
+
+export interface ForgotPasswordData {
+  email: string;
+  url_target: string;
+}

@@ -2,8 +2,7 @@ import * as React from "react";
 import { createLink, LinkComponent } from "@tanstack/react-router";
 
 const style = {
-  color: "red",
-  fontWeight: "bold",
+  textDecoration: "none",
 };
 
 interface BasicLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -23,6 +22,7 @@ export const CustomLink: LinkComponent<typeof BasicLinkComponent> = (props) => {
       activeProps={{
         style,
       }}
+      style={style}
       {...props}
     />
   );

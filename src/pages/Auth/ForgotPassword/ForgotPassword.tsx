@@ -1,22 +1,40 @@
 import { FaArrowLeftLong } from "react-icons/fa6";
-import {
-  Anchor,
-  Button,
-  Center,
-  Container,
-  Group,
-  Paper,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Anchor, Button, Center, Group, Paper, Text, TextInput, Title } from "@mantine/core";
 import classes from "./ForgotPassword.module.css";
 import { CustomLink } from "../../../components/CustomLink";
 import { ROUTES } from "../../../utils/route";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ForgotPasswordData,
+  ForgotPasswordInput,
+  ForgotPasswordSchema,
+} from "../../../schemas/Auth/authSchema";
+import { useForgotPassword } from "../../../services/auth/mutation";
 
 export default function ForgotPassword() {
+  const { mutate, isPending } = useForgotPassword();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ForgotPasswordInput>({
+    resolver: zodResolver(ForgotPasswordSchema),
+    reValidateMode: "onChange",
+  });
+
+  const onSubmit = (data: ForgotPasswordInput) => {
+    const url = window.location.origin + ROUTES.AUTH.RESET_PASSWORD;
+    const dataWithUrl: ForgotPasswordData = {
+      ...data,
+      url_target: url,
+    };
+    mutate(dataWithUrl);
+  };
+
   return (
-    <Container className={classes.container}>
+    <form onSubmit={handleSubmit(onSubmit)} className={classes.container}>
       <Title className={classes.title} ta="center">
         Forgot your password?
       </Title>
@@ -29,23 +47,32 @@ export default function ForgotPassword() {
           label="Your email"
           placeholder="xxx@gmail.com"
           size="lg"
-          required
           classNames={{ input: classes.input }}
+          error={errors.email?.message}
+          {...register("email")}
         />
         <Group justify="space-between" mt="lg" className={classes.controls}>
           <Anchor c="dimmed" size="sm" className={classes.control}>
             <Center inline>
-              <FaArrowLeftLong size={12} />
+              <FaArrowLeftLong size={14} />
               <CustomLink to={ROUTES.AUTH.LOGIN} className={classes.loginLink}>
                 Back to the login page
               </CustomLink>
             </Center>
           </Anchor>
-          <Button className={classes.control} bg="black">
+          <Button
+            loading={isPending}
+            loaderProps={{ type: "custom", size: "lg" }}
+            variant="filled"
+            color="black"
+            className={classes.control}
+            size="md"
+            type="submit"
+          >
             Reset password
           </Button>
         </Group>
       </Paper>
-    </Container>
+    </form>
   );
 }
