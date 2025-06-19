@@ -35,13 +35,13 @@ export default function SendVerification() {
         mutate({ url_target: url, access_token: accessToken });
       },
       onCancel: () => {
-        removeToken();
         dispatch(resetAuth());
+        removeToken();
         modals.closeAll();
         navigate({ to: "/login" });
       },
     });
-  }, [isPending, navigate, mutate]);
+  }, [isPending]);
 
   return null;
 }

@@ -16,6 +16,13 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 
+const NO_AUTH_REQUIRED_PATHS: string[] = [
+  "/auth/login", // Ví dụ: Đường dẫn đăng nhập
+  "/auth/register", // Ví dụ: Đường dẫn đăng ký
+  "/confirm-account", // Ví dụ: Đường dẫn kích hoạt tài khoản
+  // Thêm các đường dẫn khác vào đây
+];
+
 // --- Request Interceptor ---
 // Chặn mọi yêu cầu trước khi chúng được gửi đi
 apiClient.interceptors.request.use(
@@ -24,8 +31,15 @@ apiClient.interceptors.request.use(
     const token = getLocalToken();
     // Hoặc từ một nguồn khác, ví dụ: useSelector((state: RootState) => state.auth.token);
 
-    if (token) {
-      // Gắn token vào header Authorization cho mỗi yêu cầu
+    const requestUrl = config.url;
+
+    // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách loại trừ không
+    const isNoAuthRequired = NO_AUTH_REQUIRED_PATHS.some(
+      (path) => requestUrl?.includes(path) // Hoặc requestUrl?.endsWith(path) nếu bạn muốn chính xác hơn
+    );
+
+    // Chỉ gắn token nếu token tồn tại VÀ đường dẫn không nằm trong danh sách loại trừ
+    if (token && !isNoAuthRequired) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     // console.log('✅ Yêu cầu đi:', config.url); // Để debug

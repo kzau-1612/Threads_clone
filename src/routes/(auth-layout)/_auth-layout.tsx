@@ -17,23 +17,25 @@ export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
     const token = getLocalToken();
 
     if (location.pathname === ROUTES.AUTH.ACTIVE_ACCOUNT) {
+      if (isAuth && user && user.status === 1) {
+        throw redirect({ to: "/" });
+      }
       return;
     }
 
-    if (!isAuth && !user && !token) {
-      throw redirect({ to: ROUTES.AUTH.LOGIN });
+    if (location.pathname === ROUTES.AUTH.VERIFY_ACCOUNT) {
+      if (!isAuth && !user && !token) {
+        throw redirect({ to: ROUTES.AUTH.LOGIN });
+      }
+      if (isAuth && user && user.status === 0) {
+        return;
+      }
     }
 
     if (isAuth && user) {
       throw redirect({
         to: "/",
       });
-    }
-
-    if (location.pathname === ROUTES.AUTH.VERIFY_ACCOUNT) {
-      if (isAuth && user && user.status === 0) {
-        return;
-      }
     }
   },
 });

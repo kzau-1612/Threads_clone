@@ -11,13 +11,16 @@ import { ROUTES } from "../../utils/route";
 
 export const Route = createFileRoute("/(layout)/_layout")({
   component: MainLayout,
+  beforeLoad: () => {
+    const { user } = store.getState().auth;
+    if (user && user.status === 0) {
+      throw redirect({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
+    }
+  },
   loader: async ({ context: { queryClient } }) => {
     const token = getLocalToken(); // Lấy token hiện tại
     const { isAuth, user } = store.getState().auth; // Lấy trạng thái đăng nhập
-    if (user && user.status === 0) {
-      return redirect({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
-    }
-    if (!token && !isAuth) {
+    if (!token && !isAuth && !user) {
       queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
       console.log("No token found. Profile cache cleared.");
       store.dispatch(resetAuth());
@@ -31,6 +34,7 @@ export const Route = createFileRoute("/(layout)/_layout")({
         return redirect({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
       }
     } catch (error) {
+      console.log(error);
       console.log("Profile not available (user not logged in)");
       queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
       store.dispatch(resetAuth());
@@ -72,7 +76,9 @@ function MainLayout() {
             <CustomLink to="/search">Search</CustomLink>
           </li>
           <li>
-            <CustomLink to="/login">Login</CustomLink>
+            <CustomLink to="/login" preload={false}>
+              Login
+            </CustomLink>
           </li>
 
           {/* <li>
