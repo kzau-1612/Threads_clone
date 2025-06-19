@@ -1,6 +1,8 @@
 import apiClient from "../../lib/axios";
 import {
   ActiveAccountResponse,
+  ForgotPasswordData,
+  ForgotPasswordResponse,
   LoginData,
   LoginForm,
   ProfileData,
@@ -47,5 +49,10 @@ export const activeAccount = async (token: string): Promise<ActiveAccountRespons
 
 export const logout = async () => {
   const response = await apiClient.post("/auth/logout");
+  return response.data;
+};
+
+export const forgotPassword = async (data: ForgotPasswordData): Promise<ForgotPasswordResponse> => {
+  const response = await apiClient.post("/forgot-password", data);
   return response.data;
 };

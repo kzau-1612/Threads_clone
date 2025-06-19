@@ -1,13 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { activeAccount, login, logout, register, sendVerificationEmail } from "./api";
+import {
+  activeAccount,
+  forgotPassword,
+  login,
+  logout,
+  register,
+  sendVerificationEmail,
+} from "./api";
 import { removeToken, saveLocalRefreshToken, saveLocalToken } from "../../utils/auth";
 import { resetAuth, updateAuthStatus, updateAuthUser } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../stores/hooks";
 import { infoToast } from "../../utils/toast";
 import { AxiosError } from "axios";
 import { MESSAGES } from "../../utils/message";
-import { RegisterErrorResponse } from "../../schemas/Auth/authSchema";
+import { ForgotPasswordResponse, RegisterErrorResponse } from "../../schemas/Auth/authSchema";
 import { ROUTES } from "../../utils/route";
 import { persistor, store } from "../../stores/store";
 
@@ -122,6 +129,26 @@ export const useLogout = () => {
     onSuccess: () => {
       removeToken();
       store.dispatch(resetAuth());
+    },
+  });
+};
+
+export const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: (data) => {
+      console.log(data);
+      infoToast({ message: MESSAGES.AUTH.FORGOT_PASSWORD.SUCCESS });
+    },
+    onError: (error: AxiosError<ForgotPasswordResponse>) => {
+      console.log(error);
+      const status = error.response?.status;
+      const message = error.response?.data?.message;
+      if (status === 401) {
+        infoToast({ message });
+      } else {
+        infoToast({ message: MESSAGES.AUTH.FORGOT_PASSWORD.FAILED });
+      }
     },
   });
 };

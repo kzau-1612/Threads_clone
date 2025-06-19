@@ -75,3 +75,8 @@
   margin-left: 5px;
   text-decoration: none;
 }
+
+.forgotPasswordLink {
+  color: var(--mantine-color-gray-6);
+  text-decoration: none;
+}

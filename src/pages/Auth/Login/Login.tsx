@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { LoginForm } from "../../../schemas/Auth/authSchema";
 import { useLogin } from "../../../services/auth/mutation";
 import { CustomLink } from "../../../components/CustomLink";
+import { ROUTES } from "../../../utils/route";
 
 export default function Login() {
   const { mutate, isPending } = useLogin();
@@ -53,9 +54,9 @@ export default function Login() {
         </Button>
       </form>
       <div className={styles.bottom}>
-        <Anchor c="var(--mantine-color-gray-6)" size="sm" underline="never">
+        <CustomLink to={ROUTES.AUTH.FORGOT_PASSWORD} className={styles.forgotPasswordLink}>
           Forgot password?
-        </Anchor>
+        </CustomLink>
         <div className={styles.or}>
           <span>hoặc</span>
         </div>

@@ -41,5 +41,11 @@ export const MESSAGES = {
       SUCCESS: "Verification email sent successfully, please check your email",
       FAILED: "Failed to send verification email",
     },
+    FORGOT_PASSWORD: {
+      EMAIL_REQUIRED: "Please enter your email",
+      EMAIL_INVALID: "Invalid email format",
+      SUCCESS: "Password reset link sent successfully, please check your email",
+      FAILED: "Failed to send password reset link",
+    },
   },
 };

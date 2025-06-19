@@ -24,6 +24,7 @@ import { Route as layoutLayoutProfileImport } from './routes/(layout)/_layout/pr
 import { Route as authLayoutAuthLayoutVerifyAccountImport } from './routes/(auth-layout)/_auth-layout/verify-account'
 import { Route as authLayoutAuthLayoutRegisterImport } from './routes/(auth-layout)/_auth-layout/register'
 import { Route as authLayoutAuthLayoutLoginImport } from './routes/(auth-layout)/_auth-layout/login'
+import { Route as authLayoutAuthLayoutForgotPasswordImport } from './routes/(auth-layout)/_auth-layout/forgot-password'
 import { Route as authLayoutAuthLayoutActiveAccountImport } from './routes/(auth-layout)/_auth-layout/active-account'
 
 // Create Virtual Routes
@@ -109,6 +110,13 @@ const authLayoutAuthLayoutLoginRoute = authLayoutAuthLayoutLoginImport.update({
   getParentRoute: () => authLayoutAuthLayoutRoute,
 } as any)
 
+const authLayoutAuthLayoutForgotPasswordRoute =
+  authLayoutAuthLayoutForgotPasswordImport.update({
+    id: '/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => authLayoutAuthLayoutRoute,
+  } as any)
+
 const authLayoutAuthLayoutActiveAccountRoute =
   authLayoutAuthLayoutActiveAccountImport.update({
     id: '/active-account',
@@ -183,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutAuthLayoutActiveAccountImport
       parentRoute: typeof authLayoutAuthLayoutImport
     }
+    '/(auth-layout)/_auth-layout/forgot-password': {
+      id: '/(auth-layout)/_auth-layout/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof authLayoutAuthLayoutForgotPasswordImport
+      parentRoute: typeof authLayoutAuthLayoutImport
+    }
     '/(auth-layout)/_auth-layout/login': {
       id: '/(auth-layout)/_auth-layout/login'
       path: '/login'
@@ -225,6 +240,7 @@ declare module '@tanstack/react-router' {
 
 interface authLayoutAuthLayoutRouteChildren {
   authLayoutAuthLayoutActiveAccountRoute: typeof authLayoutAuthLayoutActiveAccountRoute
+  authLayoutAuthLayoutForgotPasswordRoute: typeof authLayoutAuthLayoutForgotPasswordRoute
   authLayoutAuthLayoutLoginRoute: typeof authLayoutAuthLayoutLoginRoute
   authLayoutAuthLayoutRegisterRoute: typeof authLayoutAuthLayoutRegisterRoute
   authLayoutAuthLayoutVerifyAccountRoute: typeof authLayoutAuthLayoutVerifyAccountRoute
@@ -233,6 +249,8 @@ interface authLayoutAuthLayoutRouteChildren {
 const authLayoutAuthLayoutRouteChildren: authLayoutAuthLayoutRouteChildren = {
   authLayoutAuthLayoutActiveAccountRoute:
     authLayoutAuthLayoutActiveAccountRoute,
+  authLayoutAuthLayoutForgotPasswordRoute:
+    authLayoutAuthLayoutForgotPasswordRoute,
   authLayoutAuthLayoutLoginRoute: authLayoutAuthLayoutLoginRoute,
   authLayoutAuthLayoutRegisterRoute: authLayoutAuthLayoutRegisterRoute,
   authLayoutAuthLayoutVerifyAccountRoute:
@@ -286,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon': typeof PokemonIndexRoute
   '/active-account': typeof authLayoutAuthLayoutActiveAccountRoute
+  '/forgot-password': typeof authLayoutAuthLayoutForgotPasswordRoute
   '/login': typeof authLayoutAuthLayoutLoginRoute
   '/register': typeof authLayoutAuthLayoutRegisterRoute
   '/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
@@ -299,6 +318,7 @@ export interface FileRoutesByTo {
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon': typeof PokemonIndexRoute
   '/active-account': typeof authLayoutAuthLayoutActiveAccountRoute
+  '/forgot-password': typeof authLayoutAuthLayoutForgotPasswordRoute
   '/login': typeof authLayoutAuthLayoutLoginRoute
   '/register': typeof authLayoutAuthLayoutRegisterRoute
   '/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
@@ -316,6 +336,7 @@ export interface FileRoutesById {
   '/pokemon/$id': typeof PokemonIdRoute
   '/pokemon/': typeof PokemonIndexRoute
   '/(auth-layout)/_auth-layout/active-account': typeof authLayoutAuthLayoutActiveAccountRoute
+  '/(auth-layout)/_auth-layout/forgot-password': typeof authLayoutAuthLayoutForgotPasswordRoute
   '/(auth-layout)/_auth-layout/login': typeof authLayoutAuthLayoutLoginRoute
   '/(auth-layout)/_auth-layout/register': typeof authLayoutAuthLayoutRegisterRoute
   '/(auth-layout)/_auth-layout/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
@@ -332,6 +353,7 @@ export interface FileRouteTypes {
     | '/pokemon/$id'
     | '/pokemon'
     | '/active-account'
+    | '/forgot-password'
     | '/login'
     | '/register'
     | '/verify-account'
@@ -344,6 +366,7 @@ export interface FileRouteTypes {
     | '/pokemon/$id'
     | '/pokemon'
     | '/active-account'
+    | '/forgot-password'
     | '/login'
     | '/register'
     | '/verify-account'
@@ -359,6 +382,7 @@ export interface FileRouteTypes {
     | '/pokemon/$id'
     | '/pokemon/'
     | '/(auth-layout)/_auth-layout/active-account'
+    | '/(auth-layout)/_auth-layout/forgot-password'
     | '/(auth-layout)/_auth-layout/login'
     | '/(auth-layout)/_auth-layout/register'
     | '/(auth-layout)/_auth-layout/verify-account'
@@ -420,6 +444,7 @@ export const routeTree = rootRoute
       "parent": "/(auth-layout)",
       "children": [
         "/(auth-layout)/_auth-layout/active-account",
+        "/(auth-layout)/_auth-layout/forgot-password",
         "/(auth-layout)/_auth-layout/login",
         "/(auth-layout)/_auth-layout/register",
         "/(auth-layout)/_auth-layout/verify-account"
@@ -447,6 +472,10 @@ export const routeTree = rootRoute
     },
     "/(auth-layout)/_auth-layout/active-account": {
       "filePath": "(auth-layout)/_auth-layout/active-account.tsx",
+      "parent": "/(auth-layout)/_auth-layout"
+    },
+    "/(auth-layout)/_auth-layout/forgot-password": {
+      "filePath": "(auth-layout)/_auth-layout/forgot-password.tsx",
       "parent": "/(auth-layout)/_auth-layout"
     },
     "/(auth-layout)/_auth-layout/login": {

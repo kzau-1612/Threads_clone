@@ -48,7 +48,6 @@ export default function Register() {
           placeholder="Username"
           classNames={{ input: styles.input }}
           size="lg"
-          autoFocus
           error={errors?.username?.message || error?.response?.data?.errors?.username}
           {...register("username", { required: true })}
         />
@@ -56,7 +55,6 @@ export default function Register() {
           placeholder="Email"
           classNames={{ input: styles.input }}
           size="lg"
-          autoFocus
           error={errors?.email?.message || error?.response?.data?.errors?.email}
           {...register("email", { required: true })}
         />
@@ -64,7 +62,6 @@ export default function Register() {
           placeholder="Phone"
           classNames={{ input: styles.input }}
           size="lg"
-          autoFocus
           error={errors?.phone?.message || error?.response?.data?.errors?.phone}
           {...register("phone", { required: true })}
         />
