@@ -24,7 +24,7 @@ export default function Register() {
   });
 
   const onSubmit = (data: RegisterFormInput) => {
-    const url = window.location.origin + ROUTES.AUTH.CONFIRM_ACCOUNT;
+    const url = window.location.origin + ROUTES.AUTH.ACTIVE_ACCOUNT;
     const dataWithUrl: RegisterFormType = {
       ...data,
       url_target: url,

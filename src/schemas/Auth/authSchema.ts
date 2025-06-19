@@ -100,6 +100,7 @@ export interface ProfileData {
     name: string;
     email: string;
     avatar_path: { avatar_path: string };
+    status: number;
   };
 }
 
@@ -110,6 +111,17 @@ export interface SendEmailData {
 }
 
 export interface SendEmailResponse {
+  status: string;
+  message: string;
+}
+
+//active account
+export const confirmTokenSchema = z.object({
+  token: z.coerce.string().min(1, "Token is required"),
+});
+export type ConfirmToken = z.infer<typeof confirmTokenSchema>;
+
+export interface ActiveAccountResponse {
   status: string;
   message: string;
 }

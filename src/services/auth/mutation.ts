@@ -1,14 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { login, register, sendVerificationEmail } from "./api";
-import { saveLocalRefreshToken, saveLocalToken } from "../../utils/auth";
-import { updateAuthStatus } from "../../stores/slices/authSlice";
+import { activeAccount, login, logout, register, sendVerificationEmail } from "./api";
+import { removeToken, saveLocalRefreshToken, saveLocalToken } from "../../utils/auth";
+import { resetAuth, updateAuthStatus, updateAuthUser } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../stores/hooks";
 import { infoToast } from "../../utils/toast";
 import { AxiosError } from "axios";
 import { MESSAGES } from "../../utils/message";
 import { RegisterErrorResponse } from "../../schemas/Auth/authSchema";
 import { ROUTES } from "../../utils/route";
+import { persistor, store } from "../../stores/store";
 
 //login
 export const useLogin = () => {
@@ -21,11 +22,12 @@ export const useLogin = () => {
       console.log(data);
       saveLocalToken(data.access_token);
       saveLocalRefreshToken(data.refresh_token);
+      dispatch(updateAuthStatus(true));
+      dispatch(updateAuthUser(data.user));
       if (data.user.status === 0) {
         navigate({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
         infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
       } else {
-        dispatch(updateAuthStatus(true));
         navigate({ to: "/" });
         infoToast({ message: MESSAGES.AUTH.LOGIN.SUCCESS });
       }
@@ -99,6 +101,27 @@ export const useSendVerificationEmail = () => {
       } else {
         infoToast({ message: MESSAGES.AUTH.SEND_VERIFICATION_EMAIL.FAILED });
       }
+    },
+  });
+};
+
+export const useActiveAccount = () => {
+  return useMutation({
+    mutationFn: activeAccount,
+    onSettled: (data, error) => {
+      console.log(error);
+      removeToken();
+      store.dispatch(resetAuth());
+    },
+  });
+};
+
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      removeToken();
+      store.dispatch(resetAuth());
     },
   });
 };
