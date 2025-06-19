@@ -11,21 +11,19 @@ import { ROUTES } from "../../utils/route";
 
 export const Route = createFileRoute("/(layout)/_layout")({
   component: MainLayout,
-  beforeLoad: () => {
-    const { user } = store.getState().auth;
+  beforeLoad: ({ context: { queryClient } }) => {
+    const token = getLocalToken();
+    const { user, isAuth } = store.getState().auth;
     if (user && user.status === 0) {
       throw redirect({ to: ROUTES.AUTH.VERIFY_ACCOUNT });
     }
-  },
-  loader: async ({ context: { queryClient } }) => {
-    const token = getLocalToken(); // Lấy token hiện tại
-    const { isAuth, user } = store.getState().auth; // Lấy trạng thái đăng nhập
-    if (!token && !isAuth && !user) {
+    if (!token) {
       queryClient.removeQueries({ queryKey: profileQueryOptions.queryKey });
-      console.log("No token found. Profile cache cleared.");
       store.dispatch(resetAuth());
       return null; // Không có dữ liệu profile để tải
     }
+  },
+  loader: async ({ context: { queryClient } }) => {
     try {
       const profileData = await queryClient.ensureQueryData(profileQueryOptions);
       store.dispatch(updateAuth(profileData.data));

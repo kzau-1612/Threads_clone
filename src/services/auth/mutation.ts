@@ -1,15 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { activeAccount, login, register, sendVerificationEmail } from "./api";
+import { activeAccount, login, logout, register, sendVerificationEmail } from "./api";
 import { removeToken, saveLocalRefreshToken, saveLocalToken } from "../../utils/auth";
-import { updateAuthStatus, updateAuthUser } from "../../stores/slices/authSlice";
+import { resetAuth, updateAuthStatus, updateAuthUser } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../stores/hooks";
 import { infoToast } from "../../utils/toast";
 import { AxiosError } from "axios";
 import { MESSAGES } from "../../utils/message";
 import { RegisterErrorResponse } from "../../schemas/Auth/authSchema";
 import { ROUTES } from "../../utils/route";
-import { persistor } from "../../stores/store";
+import { persistor, store } from "../../stores/store";
 
 //login
 export const useLogin = () => {
@@ -111,7 +111,17 @@ export const useActiveAccount = () => {
     onSettled: (data, error) => {
       console.log(error);
       removeToken();
-      persistor.purge();
+      store.dispatch(resetAuth());
+    },
+  });
+};
+
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      removeToken();
+      store.dispatch(resetAuth());
     },
   });
 };

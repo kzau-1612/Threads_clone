@@ -44,3 +44,8 @@ export const activeAccount = async (token: string): Promise<ActiveAccountRespons
   const response = await apiClient.patch("/confirm-account", { token });
   return response.data;
 };
+
+export const logout = async () => {
+  const response = await apiClient.post("/auth/logout");
+  return response.data;
+};

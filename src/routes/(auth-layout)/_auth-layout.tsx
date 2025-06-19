@@ -17,9 +17,6 @@ export const Route = createFileRoute("/(auth-layout)/_auth-layout")({
     const token = getLocalToken();
 
     if (location.pathname === ROUTES.AUTH.ACTIVE_ACCOUNT) {
-      if (isAuth && user && user.status === 1) {
-        throw redirect({ to: "/" });
-      }
       return;
     }
 
