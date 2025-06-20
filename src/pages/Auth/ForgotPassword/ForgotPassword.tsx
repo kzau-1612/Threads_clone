@@ -53,7 +53,7 @@ export default function ForgotPassword() {
         />
         <Group justify="space-between" mt="lg" className={classes.controls}>
           <CustomLink to={ROUTES.AUTH.LOGIN} className={classes.loginLink}>
-            <Center inline>
+            <Center>
               <FaArrowLeftLong size={14} />
               <Text ml={5}> Back to the login page</Text>
             </Center>
