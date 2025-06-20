@@ -8,6 +8,8 @@ import {
   ProfileData,
   RegisterData,
   RegisterFormType,
+  ResetPasswordData,
+  ResetPasswordResponse,
   SendEmailData,
   SendEmailResponse,
 } from "../../schemas/Auth/authSchema";
@@ -54,5 +56,10 @@ export const logout = async () => {
 
 export const forgotPassword = async (data: ForgotPasswordData): Promise<ForgotPasswordResponse> => {
   const response = await apiClient.post("/forgot-password", data);
+  return response.data;
+};
+
+export const resetPassword = async (data: ResetPasswordData): Promise<ResetPasswordResponse> => {
+  const response = await apiClient.patch("/reset-password", data);
   return response.data;
 };

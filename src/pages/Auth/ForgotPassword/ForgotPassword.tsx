@@ -52,14 +52,12 @@ export default function ForgotPassword() {
           {...register("email")}
         />
         <Group justify="space-between" mt="lg" className={classes.controls}>
-          <Anchor c="dimmed" size="sm" className={classes.control}>
+          <CustomLink to={ROUTES.AUTH.LOGIN} className={classes.loginLink}>
             <Center inline>
               <FaArrowLeftLong size={14} />
-              <CustomLink to={ROUTES.AUTH.LOGIN} className={classes.loginLink}>
-                Back to the login page
-              </CustomLink>
+              <Text ml={5}> Back to the login page</Text>
             </Center>
-          </Anchor>
+          </CustomLink>
           <Button
             loading={isPending}
             loaderProps={{ type: "custom", size: "lg" }}
