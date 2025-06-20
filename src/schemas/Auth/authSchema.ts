@@ -145,3 +145,43 @@ export interface ForgotPasswordData {
   email: string;
   url_target: string;
 }
+
+//reset password
+export const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(
+        MESSAGES.AUTH.REGISTER.PASSWORD_MIN_LENGTH,
+        MESSAGES.AUTH.REGISTER.PASSWORD_MIN_LENGTH_MESSAGE
+      )
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}[\]:;<>,.?~\\/]).+$/,
+        MESSAGES.AUTH.REGISTER.PASSWORD_INVALID
+      ),
+    password_confirmation: z
+      .string()
+      .min(
+        MESSAGES.AUTH.REGISTER.PASSWORD_MIN_LENGTH,
+        MESSAGES.AUTH.REGISTER.PASSWORD_MIN_LENGTH_MESSAGE
+      )
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}[\]:;<>,.?~\\/]).+$/,
+        MESSAGES.AUTH.REGISTER.PASSWORD_INVALID
+      ),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: MESSAGES.AUTH.REGISTER.PASSWORD_NOT_MATCH, // Thông báo lỗi khi mật khẩu không khớp
+    path: ["password_confirmation"], // Hiển thị lỗi dưới trường `confirmPassword`
+  });
+
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
+
+export type ResetPasswordData = ResetPasswordInput & {
+  token: string;
+};
+
+export interface ResetPasswordResponse {
+  status: string;
+  message: string;
+}

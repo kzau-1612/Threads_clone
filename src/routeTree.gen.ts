@@ -22,6 +22,7 @@ import { Route as authLayoutAuthLayoutImport } from './routes/(auth-layout)/_aut
 import { Route as layoutLayoutIndexImport } from './routes/(layout)/_layout/index'
 import { Route as layoutLayoutProfileImport } from './routes/(layout)/_layout/profile'
 import { Route as authLayoutAuthLayoutVerifyAccountImport } from './routes/(auth-layout)/_auth-layout/verify-account'
+import { Route as authLayoutAuthLayoutResetPasswordImport } from './routes/(auth-layout)/_auth-layout/reset-password'
 import { Route as authLayoutAuthLayoutRegisterImport } from './routes/(auth-layout)/_auth-layout/register'
 import { Route as authLayoutAuthLayoutLoginImport } from './routes/(auth-layout)/_auth-layout/login'
 import { Route as authLayoutAuthLayoutForgotPasswordImport } from './routes/(auth-layout)/_auth-layout/forgot-password'
@@ -94,6 +95,13 @@ const authLayoutAuthLayoutVerifyAccountRoute =
   authLayoutAuthLayoutVerifyAccountImport.update({
     id: '/verify-account',
     path: '/verify-account',
+    getParentRoute: () => authLayoutAuthLayoutRoute,
+  } as any)
+
+const authLayoutAuthLayoutResetPasswordRoute =
+  authLayoutAuthLayoutResetPasswordImport.update({
+    id: '/reset-password',
+    path: '/reset-password',
     getParentRoute: () => authLayoutAuthLayoutRoute,
   } as any)
 
@@ -212,6 +220,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutAuthLayoutRegisterImport
       parentRoute: typeof authLayoutAuthLayoutImport
     }
+    '/(auth-layout)/_auth-layout/reset-password': {
+      id: '/(auth-layout)/_auth-layout/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authLayoutAuthLayoutResetPasswordImport
+      parentRoute: typeof authLayoutAuthLayoutImport
+    }
     '/(auth-layout)/_auth-layout/verify-account': {
       id: '/(auth-layout)/_auth-layout/verify-account'
       path: '/verify-account'
@@ -243,6 +258,7 @@ interface authLayoutAuthLayoutRouteChildren {
   authLayoutAuthLayoutForgotPasswordRoute: typeof authLayoutAuthLayoutForgotPasswordRoute
   authLayoutAuthLayoutLoginRoute: typeof authLayoutAuthLayoutLoginRoute
   authLayoutAuthLayoutRegisterRoute: typeof authLayoutAuthLayoutRegisterRoute
+  authLayoutAuthLayoutResetPasswordRoute: typeof authLayoutAuthLayoutResetPasswordRoute
   authLayoutAuthLayoutVerifyAccountRoute: typeof authLayoutAuthLayoutVerifyAccountRoute
 }
 
@@ -253,6 +269,8 @@ const authLayoutAuthLayoutRouteChildren: authLayoutAuthLayoutRouteChildren = {
     authLayoutAuthLayoutForgotPasswordRoute,
   authLayoutAuthLayoutLoginRoute: authLayoutAuthLayoutLoginRoute,
   authLayoutAuthLayoutRegisterRoute: authLayoutAuthLayoutRegisterRoute,
+  authLayoutAuthLayoutResetPasswordRoute:
+    authLayoutAuthLayoutResetPasswordRoute,
   authLayoutAuthLayoutVerifyAccountRoute:
     authLayoutAuthLayoutVerifyAccountRoute,
 }
@@ -307,6 +325,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof authLayoutAuthLayoutForgotPasswordRoute
   '/login': typeof authLayoutAuthLayoutLoginRoute
   '/register': typeof authLayoutAuthLayoutRegisterRoute
+  '/reset-password': typeof authLayoutAuthLayoutResetPasswordRoute
   '/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
   '/profile': typeof layoutLayoutProfileRoute
 }
@@ -321,6 +340,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof authLayoutAuthLayoutForgotPasswordRoute
   '/login': typeof authLayoutAuthLayoutLoginRoute
   '/register': typeof authLayoutAuthLayoutRegisterRoute
+  '/reset-password': typeof authLayoutAuthLayoutResetPasswordRoute
   '/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
   '/profile': typeof layoutLayoutProfileRoute
 }
@@ -339,6 +359,7 @@ export interface FileRoutesById {
   '/(auth-layout)/_auth-layout/forgot-password': typeof authLayoutAuthLayoutForgotPasswordRoute
   '/(auth-layout)/_auth-layout/login': typeof authLayoutAuthLayoutLoginRoute
   '/(auth-layout)/_auth-layout/register': typeof authLayoutAuthLayoutRegisterRoute
+  '/(auth-layout)/_auth-layout/reset-password': typeof authLayoutAuthLayoutResetPasswordRoute
   '/(auth-layout)/_auth-layout/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
   '/(layout)/_layout/profile': typeof layoutLayoutProfileRoute
   '/(layout)/_layout/': typeof layoutLayoutIndexRoute
@@ -356,6 +377,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/verify-account'
     | '/profile'
   fileRoutesByTo: FileRoutesByTo
@@ -369,6 +391,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/verify-account'
     | '/profile'
   id:
@@ -385,6 +408,7 @@ export interface FileRouteTypes {
     | '/(auth-layout)/_auth-layout/forgot-password'
     | '/(auth-layout)/_auth-layout/login'
     | '/(auth-layout)/_auth-layout/register'
+    | '/(auth-layout)/_auth-layout/reset-password'
     | '/(auth-layout)/_auth-layout/verify-account'
     | '/(layout)/_layout/profile'
     | '/(layout)/_layout/'
@@ -447,6 +471,7 @@ export const routeTree = rootRoute
         "/(auth-layout)/_auth-layout/forgot-password",
         "/(auth-layout)/_auth-layout/login",
         "/(auth-layout)/_auth-layout/register",
+        "/(auth-layout)/_auth-layout/reset-password",
         "/(auth-layout)/_auth-layout/verify-account"
       ]
     },
@@ -484,6 +509,10 @@ export const routeTree = rootRoute
     },
     "/(auth-layout)/_auth-layout/register": {
       "filePath": "(auth-layout)/_auth-layout/register.tsx",
+      "parent": "/(auth-layout)/_auth-layout"
+    },
+    "/(auth-layout)/_auth-layout/reset-password": {
+      "filePath": "(auth-layout)/_auth-layout/reset-password.tsx",
       "parent": "/(auth-layout)/_auth-layout"
     },
     "/(auth-layout)/_auth-layout/verify-account": {

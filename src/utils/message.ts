@@ -47,5 +47,9 @@ export const MESSAGES = {
       SUCCESS: "Password reset link sent successfully, please check your email",
       FAILED: "Failed to send password reset link",
     },
+    RESET_PASSWORD: {
+      SUCCESS: "Password reset successful",
+      FAILED: "Password reset failed",
+    },
   },
 };
