@@ -27,6 +27,7 @@ import { Route as authLayoutAuthLayoutRegisterImport } from './routes/(auth-layo
 import { Route as authLayoutAuthLayoutLoginImport } from './routes/(auth-layout)/_auth-layout/login'
 import { Route as authLayoutAuthLayoutForgotPasswordImport } from './routes/(auth-layout)/_auth-layout/forgot-password'
 import { Route as authLayoutAuthLayoutActiveAccountImport } from './routes/(auth-layout)/_auth-layout/active-account'
+import { Route as authLayoutAuthLayoutAuthGoogleCallbackImport } from './routes/(auth-layout)/_auth-layout/auth/google/callback'
 
 // Create Virtual Routes
 
@@ -129,6 +130,13 @@ const authLayoutAuthLayoutActiveAccountRoute =
   authLayoutAuthLayoutActiveAccountImport.update({
     id: '/active-account',
     path: '/active-account',
+    getParentRoute: () => authLayoutAuthLayoutRoute,
+  } as any)
+
+const authLayoutAuthLayoutAuthGoogleCallbackRoute =
+  authLayoutAuthLayoutAuthGoogleCallbackImport.update({
+    id: '/auth/google/callback',
+    path: '/auth/google/callback',
     getParentRoute: () => authLayoutAuthLayoutRoute,
   } as any)
 
@@ -248,6 +256,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof layoutLayoutIndexImport
       parentRoute: typeof layoutLayoutImport
     }
+    '/(auth-layout)/_auth-layout/auth/google/callback': {
+      id: '/(auth-layout)/_auth-layout/auth/google/callback'
+      path: '/auth/google/callback'
+      fullPath: '/auth/google/callback'
+      preLoaderRoute: typeof authLayoutAuthLayoutAuthGoogleCallbackImport
+      parentRoute: typeof authLayoutAuthLayoutImport
+    }
   }
 }
 
@@ -260,6 +275,7 @@ interface authLayoutAuthLayoutRouteChildren {
   authLayoutAuthLayoutRegisterRoute: typeof authLayoutAuthLayoutRegisterRoute
   authLayoutAuthLayoutResetPasswordRoute: typeof authLayoutAuthLayoutResetPasswordRoute
   authLayoutAuthLayoutVerifyAccountRoute: typeof authLayoutAuthLayoutVerifyAccountRoute
+  authLayoutAuthLayoutAuthGoogleCallbackRoute: typeof authLayoutAuthLayoutAuthGoogleCallbackRoute
 }
 
 const authLayoutAuthLayoutRouteChildren: authLayoutAuthLayoutRouteChildren = {
@@ -273,6 +289,8 @@ const authLayoutAuthLayoutRouteChildren: authLayoutAuthLayoutRouteChildren = {
     authLayoutAuthLayoutResetPasswordRoute,
   authLayoutAuthLayoutVerifyAccountRoute:
     authLayoutAuthLayoutVerifyAccountRoute,
+  authLayoutAuthLayoutAuthGoogleCallbackRoute:
+    authLayoutAuthLayoutAuthGoogleCallbackRoute,
 }
 
 const authLayoutAuthLayoutRouteWithChildren =
@@ -328,6 +346,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authLayoutAuthLayoutResetPasswordRoute
   '/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
   '/profile': typeof layoutLayoutProfileRoute
+  '/auth/google/callback': typeof authLayoutAuthLayoutAuthGoogleCallbackRoute
 }
 
 export interface FileRoutesByTo {
@@ -343,6 +362,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authLayoutAuthLayoutResetPasswordRoute
   '/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
   '/profile': typeof layoutLayoutProfileRoute
+  '/auth/google/callback': typeof authLayoutAuthLayoutAuthGoogleCallbackRoute
 }
 
 export interface FileRoutesById {
@@ -363,6 +383,7 @@ export interface FileRoutesById {
   '/(auth-layout)/_auth-layout/verify-account': typeof authLayoutAuthLayoutVerifyAccountRoute
   '/(layout)/_layout/profile': typeof layoutLayoutProfileRoute
   '/(layout)/_layout/': typeof layoutLayoutIndexRoute
+  '/(auth-layout)/_auth-layout/auth/google/callback': typeof authLayoutAuthLayoutAuthGoogleCallbackRoute
 }
 
 export interface FileRouteTypes {
@@ -380,6 +401,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-account'
     | '/profile'
+    | '/auth/google/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/search'
@@ -394,6 +416,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-account'
     | '/profile'
+    | '/auth/google/callback'
   id:
     | '__root__'
     | '/search'
@@ -412,6 +435,7 @@ export interface FileRouteTypes {
     | '/(auth-layout)/_auth-layout/verify-account'
     | '/(layout)/_layout/profile'
     | '/(layout)/_layout/'
+    | '/(auth-layout)/_auth-layout/auth/google/callback'
   fileRoutesById: FileRoutesById
 }
 
@@ -472,7 +496,8 @@ export const routeTree = rootRoute
         "/(auth-layout)/_auth-layout/login",
         "/(auth-layout)/_auth-layout/register",
         "/(auth-layout)/_auth-layout/reset-password",
-        "/(auth-layout)/_auth-layout/verify-account"
+        "/(auth-layout)/_auth-layout/verify-account",
+        "/(auth-layout)/_auth-layout/auth/google/callback"
       ]
     },
     "/(layout)": {
@@ -526,6 +551,10 @@ export const routeTree = rootRoute
     "/(layout)/_layout/": {
       "filePath": "(layout)/_layout/index.tsx",
       "parent": "/(layout)/_layout"
+    },
+    "/(auth-layout)/_auth-layout/auth/google/callback": {
+      "filePath": "(auth-layout)/_auth-layout/auth/google/callback.tsx",
+      "parent": "/(auth-layout)/_auth-layout"
     }
   }
 }

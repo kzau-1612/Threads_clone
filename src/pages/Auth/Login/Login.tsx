@@ -1,12 +1,13 @@
-import { Anchor, Button, PasswordInput, Text, TextInput } from "@mantine/core";
+import { Button, PasswordInput, Text, TextInput } from "@mantine/core";
 import styles from "./Login.module.css";
-import { FaFacebookSquare } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { LoginForm } from "../../../schemas/Auth/authSchema";
 import { useLogin } from "../../../services/auth/mutation";
 import { CustomLink } from "../../../components/CustomLink";
 import { ROUTES } from "../../../utils/route";
+import { getGoogleRedirectUrl } from "../../../services/auth/api";
 
 export default function Login() {
   const { mutate, isPending } = useLogin();
@@ -19,6 +20,11 @@ export default function Login() {
 
   const onSubmit = async (data: LoginForm) => {
     mutate(data);
+  };
+
+  const handleGoogleLogin = () => {
+    const redirectUrl = getGoogleRedirectUrl();
+    console.log(redirectUrl);
   };
 
   return (
@@ -63,13 +69,13 @@ export default function Login() {
       </div>
 
       <div className={styles.loginOptions}>
-        <Button variant="outline" color="blue" w="100%">
+        <Button variant="outline" color="#7c007c" w="100%">
           <span className={styles.icon}>
-            <FaFacebookSquare />
+            <FaGithub />
           </span>
-          <span>Facebook</span>
+          <span>Github</span>
         </Button>
-        <Button variant="outline" color="red" w="100%">
+        <Button variant="outline" color="red" w="100%" onClick={handleGoogleLogin}>
           <span className={styles.icon}>
             <FaGoogle />
           </span>
