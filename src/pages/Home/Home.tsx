@@ -13,22 +13,19 @@ export default function Home() {
     <div>
       <span className={styles.spinner}></span>
       <h1>Home</h1>
-      <p>
-        {/* Điều kiện ưu tiên 1: Đang tải hoặc đang chờ dữ liệu người dùng */}
-        {isAuth && !user ? (
-          "Đang tải..."
-        ) : /* Điều kiện ưu tiên 2: Đã đăng nhập và có dữ liệu người dùng (có tên) */
-        isAuth && user ? ( // Sử dụng user?.name để kiểm tra null/undefined của name
-          <div>
-            <p>Xin chào: {user.name}</p>
-            <Button onClick={() => logoutMutation.mutate()}>Logout</Button>
-          </div>
-        ) : (
-          /* Điều kiện ưu tiên 3: Đã đăng nhập nhưng không có tên (user có nhưng user.name không có) */
-          !isAuth && !user && "Chưa đăng nhập"
-        )}
-      </p>
-      <p></p>
+      {/* Điều kiện ưu tiên 1: Đang tải hoặc đang chờ dữ liệu người dùng */}
+      {isAuth && !user ? (
+        "Đang tải..."
+      ) : /* Điều kiện ưu tiên 2: Đã đăng nhập và có dữ liệu người dùng (có tên) */
+      isAuth && user ? ( // Sử dụng user?.name để kiểm tra null/undefined của name
+        <div>
+          <p>Xin chào: {user.name}</p>
+          <Button onClick={() => logoutMutation.mutate()}>Logout</Button>
+        </div>
+      ) : (
+        /* Điều kiện ưu tiên 3: Đã đăng nhập nhưng không có tên (user có nhưng user.name không có) */
+        !isAuth && !user && "Chưa đăng nhập"
+      )}
     </div>
   );
 }

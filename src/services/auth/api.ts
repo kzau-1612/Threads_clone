@@ -6,6 +6,7 @@ import {
   LoginData,
   LoginForm,
   ProfileData,
+  RefreshTokenResponse,
   RegisterData,
   RegisterFormType,
   ResetPasswordData,
@@ -61,5 +62,10 @@ export const forgotPassword = async (data: ForgotPasswordData): Promise<ForgotPa
 
 export const resetPassword = async (data: ResetPasswordData): Promise<ResetPasswordResponse> => {
   const response = await apiClient.patch("/reset-password", data);
+  return response.data;
+};
+
+export const refreshToken = async (): Promise<RefreshTokenResponse> => {
+  const response = await apiClient.post("/auth/refresh");
   return response.data;
 };
