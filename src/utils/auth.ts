@@ -14,6 +14,7 @@ export const saveLocalToken = (token: string) => localStorage.setItem("access_to
 export const saveLocalRefreshToken = (token: string) =>
   localStorage.setItem("refresh_token", token);
 export const getLocalToken = () => localStorage.getItem("access_token");
+export const getLocalRefreshToken = () => localStorage.getItem("refresh_token");
 export const removeToken = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
